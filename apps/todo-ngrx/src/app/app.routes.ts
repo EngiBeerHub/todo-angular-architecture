@@ -9,6 +9,6 @@ export const appRoutes: Route[] = [
   {
     path: 'todo-list',
     loadComponent: () =>
-      import('@todo-angular-architecture/pages').then((m) => m.TodoList),
+      import('./pages/todo-list/todo-list').then((m) => m.TodoList),
   },
 ];
