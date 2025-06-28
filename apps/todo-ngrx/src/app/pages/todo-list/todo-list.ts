@@ -1,9 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TodoListComponent } from '@todo-angular-architecture/components';
+import { IonContent } from '@ionic/angular/standalone';
 
 @Component({
-  imports: [CommonModule],
-  template: `<p>todo-list works!</p>`,
+  imports: [CommonModule, TodoListComponent, IonContent],
+  template: `
+    <ion-content color="light">
+      <lib-todo-list [todos]="todos"></lib-todo-list>
+    </ion-content>
+  `,
   styles: ``,
 })
-export class TodoList {}
+export class TodoListPage {
+  // TODO: change type
+  todos = ['Task1', 'Task2', 'Task3', 'Task4', 'Task5'];
+}
