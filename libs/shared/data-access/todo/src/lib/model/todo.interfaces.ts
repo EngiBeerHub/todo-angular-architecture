@@ -4,3 +4,9 @@ export interface TodoModel {
   description: string;
   dueDate: string;
 }
+
+export interface TodosState {
+  expenses: TodoModel[];
+  isLoading: boolean;
+  error: string | null;
+}
