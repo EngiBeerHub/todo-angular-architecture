@@ -1,10 +1,9 @@
-import { Observable } from 'rxjs';
 import { TodoModel, TodosViewModel } from '../model/todo.interfaces';
 import { Signal } from '@angular/core';
 
 export interface ITodoFacade {
-  todoSelector$: Observable<TodoModel>;
   $todos: Signal<TodosViewModel>;
+  $isLoading: Signal<boolean>;
   resetTodosState(): void;
   addTodo(todo: TodoModel): void;
   fetchTodos(): void;

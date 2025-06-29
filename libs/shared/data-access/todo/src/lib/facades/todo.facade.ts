@@ -3,14 +3,13 @@ import { ITodoFacade } from './todo.facade.interface';
 import { Store } from '@ngrx/store';
 import { TodoModel, TodosViewModel } from '../model/todo.interfaces';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TodoActions, TodoEffects, TodoSelectors } from '../state/index';
+import { TodoActions, TodoSelectors } from '../state/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoFacade implements ITodoFacade {
   protected readonly store = inject(Store);
-  private readonly todoEffects = inject(TodoEffects);
 
   $todosSignal = toSignal(this.store.select(TodoSelectors.selectTodos), {
     initialValue: [],
@@ -23,7 +22,9 @@ export class TodoFacade implements ITodoFacade {
     };
   });
 
-  todoSelector$ = this.todoEffects.getTodoSuccess$;
+  $isLoading = toSignal(this.store.select(TodoSelectors.selectIsLoading), {
+    initialValue: false,
+  });
 
   resetTodosState(): void {
     this.store.dispatch(TodoActions.resetTodosState());
