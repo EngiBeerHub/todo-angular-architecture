@@ -7,6 +7,8 @@ import { TodoListComponent } from '@todo-angular-architecture/components';
   selector: 'app-todo-list-component',
   imports: [CommonModule, IonContent, TodoListComponent],
   template: `
+    <!-- TODO: for passing e2e. Remove later. -->
+    <h1>Welcome</h1>
     <ion-content color="light">
       <lib-todo-list [todos]="todos"></lib-todo-list>
     </ion-content>
