@@ -30,7 +30,7 @@ export const MockInterceptor: HttpInterceptorFn = (
   });
 
   return next(clonedRequest).pipe(
-    delay(1000),
+    delay(500),
     map((event: HttpEvent<unknown>) => {
       const isResponse = event instanceof HttpResponse;
       if (isResponse && req.method === 'DELETE' && urlEndIsInteger)

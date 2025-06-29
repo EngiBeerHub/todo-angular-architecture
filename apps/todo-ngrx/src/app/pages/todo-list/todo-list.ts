@@ -15,7 +15,10 @@ import {
     <ion-loading [isOpen]="$isLoading()"></ion-loading>
     <h1>Welcome</h1>
     <ion-content color="light">
-      <lib-todo-list [$todos]="$todos()"></lib-todo-list>
+      <lib-todo-list
+        [$todos]="$todos()"
+        (checkToggled)="onCheckToggled($event)"
+      ></lib-todo-list>
     </ion-content>
   `,
   styles: ``,
@@ -33,5 +36,9 @@ export class TodoListPage implements OnInit {
 
   onAddTodo(todoToAdd: TodoModel) {
     this.todoFacade.addTodo(todoToAdd);
+  }
+
+  onCheckToggled(event: TodoModel) {
+    this.todoFacade.updateTodo(event);
   }
 }

@@ -1,7 +1,14 @@
-import { Component, input, InputSignal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  InputSignal,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonCheckbox, IonItem, IonList } from '@ionic/angular/standalone';
-import { TodosViewModel } from '@todo-angular-architecture/todo';
+import { TodoModel, TodosViewModel } from '@todo-angular-architecture/todo';
+import { CheckboxCustomEvent } from '@ionic/angular';
 
 @Component({
   selector: 'lib-todo-list',
@@ -10,9 +17,12 @@ import { TodosViewModel } from '@todo-angular-architecture/todo';
     <ion-list [inset]="true">
       @for (todo of $todos().todos; track todo.id) {
       <ion-item>
-        <ion-checkbox labelPlacement="end" [checked]="todo.isDone">{{
-          todo.title
-        }}</ion-checkbox>
+        <ion-checkbox
+          labelPlacement="end"
+          [checked]="todo.isDone"
+          (ionChange)="onCheckToggled(todo, $event)"
+          >{{ todo.title }}
+        </ion-checkbox>
       </ion-item>
       }
     </ion-list>
@@ -21,4 +31,9 @@ import { TodosViewModel } from '@todo-angular-architecture/todo';
 })
 export class TodoListComponent {
   $todos: InputSignal<TodosViewModel> = input.required<TodosViewModel>();
+  @Output() checkToggled = new EventEmitter<TodoModel>();
+
+  onCheckToggled(todo: TodoModel, event: CheckboxCustomEvent) {
+    this.checkToggled.emit({ ...todo, isDone: event.detail.checked });
+  }
 }
