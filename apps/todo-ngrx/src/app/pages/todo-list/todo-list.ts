@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoListComponent } from '@todo-angular-architecture/components';
 import { IonContent } from '@ionic/angular/standalone';
+import {
+  TodoFacade,
+  TodoModel,
+  TodosViewModel,
+} from '@todo-angular-architecture/todo';
 
 @Component({
   imports: [CommonModule, TodoListComponent, IonContent],
@@ -9,12 +14,23 @@ import { IonContent } from '@ionic/angular/standalone';
     <!-- TODO: for passing e2e. Remove later. -->
     <h1>Welcome</h1>
     <ion-content color="light">
-      <lib-todo-list [todos]="todos"></lib-todo-list>
+      <lib-todo-list [$todos]="$todos()"></lib-todo-list>
     </ion-content>
   `,
   styles: ``,
 })
-export class TodoListPage {
-  // TODO: change type
-  todos = ['Task1', 'Task2', 'Task3', 'Task4', 'Task5'];
+export class TodoListPage implements OnInit {
+  protected readonly todoFacade = inject(TodoFacade);
+
+  $todos: Signal<TodosViewModel> = this.todoFacade.$todos;
+
+  ngOnInit() {
+    this.todoFacade.fetchTodos();
+  }
+
+  onAddTodo(todoToAdd: TodoModel) {
+    this.todoFacade.addTodo(todoToAdd);
+  }
+
+  // todos = ['Task1', 'Task2', 'Task3', 'Task4', 'Task5'];
 }

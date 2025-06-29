@@ -7,13 +7,14 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { isDevMode } from '@angular/core';
-import { map } from 'rxjs';
+import { delay, map } from 'rxjs';
 
 // TODO: 必要あれば直す
 export const MockInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) => {
+  console.log(req);
   if (!isDevMode()) return next(req);
 
   const urlEnd = +req.url.split('/')[req.url.split('/').length - 1];
@@ -29,6 +30,7 @@ export const MockInterceptor: HttpInterceptorFn = (
   });
 
   return next(clonedRequest).pipe(
+    delay(1000),
     map((event: HttpEvent<unknown>) => {
       const isResponse = event instanceof HttpResponse;
       if (isResponse && req.method === 'DELETE' && urlEndIsInteger)

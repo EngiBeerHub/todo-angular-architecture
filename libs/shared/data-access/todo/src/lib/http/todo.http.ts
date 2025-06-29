@@ -8,6 +8,6 @@ import { TodoAdapter } from '../adapters/todo.adapter';
 })
 export class TodoHttpService extends GenericHttpService<TodoDto, TodoModel> {
   constructor() {
-    super('/todo', '', new TodoAdapter());
+    super('/todos', '', new TodoAdapter());
   }
 }

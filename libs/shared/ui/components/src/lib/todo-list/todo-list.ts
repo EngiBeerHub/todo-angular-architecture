@@ -1,15 +1,16 @@
-import { Component, input } from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonCheckbox, IonItem, IonList } from '@ionic/angular/standalone';
+import { TodosViewModel } from '@todo-angular-architecture/todo';
 
 @Component({
   selector: 'lib-todo-list',
   imports: [CommonModule, IonList, IonItem, IonCheckbox],
   template: `
     <ion-list [inset]="true">
-      @for (todo of todos(); track todo) {
+      @for (todo of $todos().todos; track todo.id) {
       <ion-item>
-        <ion-checkbox labelPlacement="end">{{ todo }}</ion-checkbox>
+        <ion-checkbox labelPlacement="end">{{ todo.title }}</ion-checkbox>
       </ion-item>
       }
     </ion-list>
@@ -17,6 +18,6 @@ import { IonCheckbox, IonItem, IonList } from '@ionic/angular/standalone';
   styles: ``,
 })
 export class TodoListComponent {
-  // TODO: change type
-  todos = input.required<string[]>();
+  $todos: InputSignal<TodosViewModel> = input.required<TodosViewModel>();
+  // todos = input.required<string[]>();
 }

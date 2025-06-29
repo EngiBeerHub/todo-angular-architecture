@@ -10,7 +10,7 @@ import { TodoListComponent } from '@todo-angular-architecture/components';
     <!-- TODO: for passing e2e. Remove later. -->
     <h1>Welcome</h1>
     <ion-content color="light">
-      <lib-todo-list [todos]="todos"></lib-todo-list>
+      <lib-todo-list [$todos]="todos"></lib-todo-list>
     </ion-content>
   `,
   styles: ``,

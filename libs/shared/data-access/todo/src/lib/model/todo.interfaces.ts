@@ -12,6 +12,10 @@ export interface TodoModel {
   dueDate: string;
 }
 
+export interface TodosViewModel {
+  todos: TodoModel[];
+}
+
 export interface TodosState {
   todos: TodoModel[];
   isLoading: boolean;

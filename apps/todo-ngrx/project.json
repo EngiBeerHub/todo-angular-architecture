@@ -17,6 +17,8 @@
         "tsConfig": "apps/todo-ngrx/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
+          "apps/todo-ngrx/src/assets",
+          "apps/todo-ngrx/src/assets/api",
           {
             "glob": "**/*",
             "input": "apps/todo-ngrx/public"

@@ -17,6 +17,8 @@
         "tsConfig": "apps/todo-signals/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
+          "apps/todo-signals/src/assets",
+          "apps/todo-signals/src/assets/api",
           {
             "glob": "**/*",
             "input": "apps/todo-signals/public"
