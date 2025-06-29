@@ -1,0 +1,9 @@
+{
+  "name": "todo-signals-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/todo-signals-e2e/src",
+  "implicitDependencies": ["todo-signals"],
+  "// targets": "to see all targets run: nx show project todo-signals-e2e --web",
+  "targets": {}
+}
