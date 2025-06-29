@@ -1,6 +1,6 @@
 <ion-loading [isOpen]="$isLoading()"></ion-loading>
 
-<ion-header>
+<ion-header [translucent]="true" collapse="fade">
   <ion-toolbar>
     <!-- TODO: for passing e2e. Remove later. -->
     <ion-title>Welcome</ion-title>
@@ -8,9 +8,27 @@
 </ion-header>
 
 <ion-content color="light">
+  <!-- plus, content is fullscreen -->
+  <!--  <ion-header collapse="condense">-->
+  <!--    <ion-toolbar>-->
+  <!--      <ion-title size="large">Welcome</ion-title>-->
+  <!--    </ion-toolbar>-->
+  <!--  </ion-header>-->
+
   <lib-todo-list
     [$todos]="$todos()"
     (checkedChange)="onCheckedChange($event)"
     (todoDeleted)="onTodoDeleted($event)"
   ></lib-todo-list>
 </ion-content>
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="add-circle" style="margin-right: 8px"></ion-icon>
+        新規
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
