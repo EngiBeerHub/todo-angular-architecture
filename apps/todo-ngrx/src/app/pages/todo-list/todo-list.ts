@@ -1,7 +1,13 @@
 import { Component, inject, OnInit, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoListComponent } from '@todo-angular-architecture/components';
-import { IonContent, IonLoading } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonHeader,
+  IonLoading,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular/standalone';
 import {
   TodoFacade,
   TodoModel,
@@ -9,11 +15,25 @@ import {
 } from '@todo-angular-architecture/todo';
 
 @Component({
-  imports: [CommonModule, TodoListComponent, IonContent, IonLoading],
+  imports: [
+    CommonModule,
+    TodoListComponent,
+    IonContent,
+    IonLoading,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+  ],
   template: `
-    <!-- TODO: for passing e2e. Remove later. -->
     <ion-loading [isOpen]="$isLoading()"></ion-loading>
-    <h1>Welcome</h1>
+
+    <ion-header>
+      <ion-toolbar>
+        <!-- TODO: for passing e2e. Remove later. -->
+        <ion-title>Welcome</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
     <ion-content color="light">
       <lib-todo-list
         [$todos]="$todos()"
