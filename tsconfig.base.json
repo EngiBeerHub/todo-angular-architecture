@@ -18,6 +18,9 @@
       "@todo-angular-architecture/components": [
         "libs/shared/ui/components/src/index.ts"
       ],
+      "@todo-angular-architecture/generic-http": [
+        "libs/shared/data-access/generic-http/src/index.ts"
+      ],
       "@todo-angular-architecture/todo": [
         "libs/shared/data-access/todo/src/index.ts"
       ]
