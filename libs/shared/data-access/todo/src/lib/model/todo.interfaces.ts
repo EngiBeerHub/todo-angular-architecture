@@ -13,7 +13,7 @@ export interface TodoModel {
 }
 
 export interface TodosState {
-  expenses: TodoModel[];
+  todos: TodoModel[];
   isLoading: boolean;
   error: string | null;
 }
