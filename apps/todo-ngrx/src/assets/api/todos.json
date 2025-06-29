@@ -3,18 +3,35 @@
     "id": 1,
     "title": "Buy eggs",
     "description": "at the super",
-    "dueDate": "2025-07-01"
+    "dueDate": "2025-07-01",
+    "isDone": false
   },
   {
     "id": 2,
     "title": "Run 10km",
     "description": "slowly",
-    "dueDate": "2025-06-29"
+    "dueDate": "2025-06-29",
+    "isDone": false
   },
   {
     "id": 3,
     "title": "Study NgRx",
     "description": "for a solid architecture",
-    "dueDate": "2025-07-01"
+    "dueDate": "2025-07-01",
+    "isDone": true
+  },
+  {
+    "id": 4,
+    "title": "Implement IonLoading",
+    "description": "for a solid architecture",
+    "dueDate": "2025-07-01",
+    "isDone": true
+  },
+  {
+    "id": 5,
+    "title": "Buy Clothes",
+    "description": "for summer",
+    "dueDate": "2025-07-01",
+    "isDone": false
   }
 ]

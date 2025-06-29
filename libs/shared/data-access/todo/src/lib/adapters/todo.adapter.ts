@@ -8,6 +8,7 @@ export class TodoAdapter implements ModelAdapter<TodoDto, TodoModel> {
       title: dto.title,
       description: dto.description,
       dueDate: dto.dueDate,
+      isDone: dto.isDone,
     };
   }
 
@@ -17,6 +18,7 @@ export class TodoAdapter implements ModelAdapter<TodoDto, TodoModel> {
       title: model.title,
       description: model.description,
       dueDate: model.dueDate,
+      isDone: model.isDone,
     };
   }
 }

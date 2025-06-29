@@ -3,6 +3,7 @@ export interface TodoDto {
   title: string;
   description: string;
   dueDate: string;
+  isDone: boolean;
 }
 
 export interface TodoModel {
@@ -10,6 +11,7 @@ export interface TodoModel {
   title: string;
   description: string;
   dueDate: string;
+  isDone: boolean;
 }
 
 export interface TodosViewModel {

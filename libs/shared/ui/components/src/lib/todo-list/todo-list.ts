@@ -10,7 +10,9 @@ import { TodosViewModel } from '@todo-angular-architecture/todo';
     <ion-list [inset]="true">
       @for (todo of $todos().todos; track todo.id) {
       <ion-item>
-        <ion-checkbox labelPlacement="end">{{ todo.title }}</ion-checkbox>
+        <ion-checkbox labelPlacement="end" [checked]="todo.isDone">{{
+          todo.title
+        }}</ion-checkbox>
       </ion-item>
       }
     </ion-list>
@@ -19,5 +21,4 @@ import { TodosViewModel } from '@todo-angular-architecture/todo';
 })
 export class TodoListComponent {
   $todos: InputSignal<TodosViewModel> = input.required<TodosViewModel>();
-  // todos = input.required<string[]>();
 }
