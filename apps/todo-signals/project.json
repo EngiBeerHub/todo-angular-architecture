@@ -11,6 +11,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/todo-signals",
+        "index": "apps/todo-signals/src/index.html",
         "browser": "apps/todo-signals/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/todo-signals/tsconfig.app.json",

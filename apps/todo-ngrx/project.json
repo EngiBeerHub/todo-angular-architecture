@@ -11,6 +11,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/todo-ngrx",
+        "index": "apps/todo-ngrx/src/index.html",
         "browser": "apps/todo-ngrx/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/todo-ngrx/tsconfig.app.json",
