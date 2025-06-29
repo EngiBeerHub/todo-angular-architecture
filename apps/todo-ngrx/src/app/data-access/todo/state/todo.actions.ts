@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { TodoModel } from '../model/todo.interfaces';
+import { TodoModel } from '@todo-angular-architecture/todo';
 
 export const resetTodosState = createAction(`[Todos] Reset state`);
 

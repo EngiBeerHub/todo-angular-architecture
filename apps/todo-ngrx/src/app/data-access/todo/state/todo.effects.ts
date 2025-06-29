@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { TodoHttpService } from '../http/todo.http';
+import { TodoHttpService, TodoModel } from '@todo-angular-architecture/todo';
 import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TodoActions, TodoSelectors } from './index';
 import { catchError, map, of, switchMap } from 'rxjs';
-import { TodoModel } from '../model/todo.interfaces';
 
 @Injectable({
   providedIn: 'root',

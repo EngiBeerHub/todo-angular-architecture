@@ -3,15 +3,12 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideIonicAngular } from '@ionic/angular/standalone';
 import { provideState, provideStore } from '@ngrx/store';
-import {
-  TodoEffects,
-  todoFeatureKey,
-  todoReducer,
-} from '@todo-angular-architecture/todo';
+import { TodoEffects, todoReducer } from './data-access/todo/state';
 import { provideEffects } from '@ngrx/effects';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MockInterceptor } from '@todo-angular-architecture/generic-http';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { todoFeatureKey } from './data-access/todo/state/feature-key';
 
 export const appConfig: ApplicationConfig = {
   providers: [

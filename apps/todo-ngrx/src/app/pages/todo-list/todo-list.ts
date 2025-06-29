@@ -8,11 +8,8 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
-import {
-  TodoFacade,
-  TodoModel,
-  TodosViewModel,
-} from '@todo-angular-architecture/todo';
+import { TodoModel, TodosViewModel } from '@todo-angular-architecture/todo';
+import { TodoFacade } from '../../data-access/todo/facades/todo.facade';
 
 @Component({
   imports: [

@@ -1,9 +1,12 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { ITodoFacade } from './todo.facade.interface';
+import {
+  ITodoFacade,
+  TodoModel,
+  TodosViewModel,
+} from '@todo-angular-architecture/todo';
 import { Store } from '@ngrx/store';
-import { TodoModel, TodosViewModel } from '../model/todo.interfaces';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TodoActions, TodoSelectors } from '../state/index';
+import { TodoActions, TodoSelectors } from '../state';
 
 @Injectable({
   providedIn: 'root',

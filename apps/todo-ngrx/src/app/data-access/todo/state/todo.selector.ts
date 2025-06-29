@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { TodosState } from '../model/todo.interfaces';
-import { todoFeatureKey } from './todo.reducer';
+import { TodosState } from '@todo-angular-architecture/todo';
+import { todoFeatureKey } from './feature-key';
 
 export const selectTodosState =
   createFeatureSelector<TodosState>(todoFeatureKey);

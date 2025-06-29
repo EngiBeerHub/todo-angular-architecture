@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { TodoHttpService } from '../http/todo.http';
-import { TodoModel } from '../model/todo.interfaces';
+import { TodoHttpService } from '@todo-angular-architecture/todo';
+import { TodoModel } from '@todo-angular-architecture/todo';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({

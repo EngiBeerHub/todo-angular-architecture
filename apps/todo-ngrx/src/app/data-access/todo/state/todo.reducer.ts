@@ -1,5 +1,5 @@
 import { TodoActions } from './index';
-import { TodosState } from '../model/todo.interfaces';
+import { TodosState } from '@todo-angular-architecture/todo';
 import { createReducer, on } from '@ngrx/store';
 
 export const initialTodosState: Readonly<TodosState> = {
@@ -72,5 +72,3 @@ export const todoReducer = createReducer<TodosState>(
     error: 'Failed to delete todo!',
   }))
 );
-
-export const todoFeatureKey = 'todo';
