@@ -21,23 +21,7 @@ import { TodoFacade } from '../../data-access/todo/facades/todo.facade';
     IonToolbar,
     IonTitle,
   ],
-  template: `
-    <ion-loading [isOpen]="$isLoading()"></ion-loading>
-
-    <ion-header>
-      <ion-toolbar>
-        <!-- TODO: for passing e2e. Remove later. -->
-        <ion-title>Welcome</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content color="light">
-      <lib-todo-list
-        [$todos]="$todos()"
-        (checkToggled)="onCheckToggled($event)"
-      ></lib-todo-list>
-    </ion-content>
-  `,
+  templateUrl: './todo-list.html',
   styles: ``,
 })
 export class TodoListPage implements OnInit {
@@ -55,7 +39,13 @@ export class TodoListPage implements OnInit {
     this.todoFacade.addTodo(todoToAdd);
   }
 
-  onCheckToggled(event: TodoModel) {
+  onCheckedChange(event: TodoModel) {
     this.todoFacade.updateTodo(event);
+  }
+
+  onTodoDeleted(event: TodoModel) {
+    if (event.id) {
+      this.todoFacade.deleteTodo(event.id);
+    }
   }
 }

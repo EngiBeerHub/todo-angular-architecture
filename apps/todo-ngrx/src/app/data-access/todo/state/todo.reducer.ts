@@ -43,7 +43,7 @@ export const todoReducer = createReducer<TodosState>(
   })),
   on(TodoActions.updateTodo, (state) => ({
     ...state,
-    isLoading: true,
+    // No loading for preventing aborting user interaction
   })),
   on(TodoActions.updateTodoSuccess, (state, { todo }) => ({
     ...state,
@@ -58,7 +58,7 @@ export const todoReducer = createReducer<TodosState>(
   })),
   on(TodoActions.deleteTodo, (state) => ({
     ...state,
-    isLoading: true,
+    // No loading for preventing aborting user interaction
   })),
   on(TodoActions.deleteTodoSuccess, (state, { id }) => ({
     ...state,

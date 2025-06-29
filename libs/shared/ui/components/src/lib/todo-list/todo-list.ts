@@ -6,24 +6,54 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonCheckbox, IonItem, IonList } from '@ionic/angular/standalone';
+import {
+  IonCheckbox,
+  IonIcon,
+  IonItem,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonList,
+} from '@ionic/angular/standalone';
 import { TodoModel, TodosViewModel } from '@todo-angular-architecture/todo';
 import { CheckboxCustomEvent } from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import { trash } from 'ionicons/icons';
 
 @Component({
   selector: 'lib-todo-list',
-  imports: [CommonModule, IonList, IonItem, IonCheckbox],
+  imports: [
+    CommonModule,
+    IonList,
+    IonItem,
+    IonCheckbox,
+    IonItemSliding,
+    IonItemOptions,
+    IonItemOption,
+    IonIcon,
+  ],
   template: `
     <ion-list [inset]="true">
       @for (todo of $todos().todos; track todo.id) {
-      <ion-item>
-        <ion-checkbox
-          labelPlacement="end"
-          [checked]="todo.isDone"
-          (ionChange)="onCheckToggled(todo, $event)"
-          >{{ todo.title }}
-        </ion-checkbox>
-      </ion-item>
+      <ion-item-sliding #sliding>
+        <ion-item>
+          <ion-checkbox
+            labelPlacement="end"
+            [checked]="todo.isDone"
+            (ionChange)="onCheckedChange(todo, $event)"
+            >{{ todo.title }}
+          </ion-checkbox>
+        </ion-item>
+        <ion-item-options slot="end">
+          <ion-item-option color="danger">
+            <ion-icon
+              slot="icon-only"
+              name="trash"
+              (click)="onTodoDeleted(todo, sliding)"
+            ></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
       }
     </ion-list>
   `,
@@ -31,9 +61,19 @@ import { CheckboxCustomEvent } from '@ionic/angular';
 })
 export class TodoListComponent {
   $todos: InputSignal<TodosViewModel> = input.required<TodosViewModel>();
-  @Output() checkToggled = new EventEmitter<TodoModel>();
+  @Output() checkedChange = new EventEmitter<TodoModel>();
+  @Output() todoDeleted = new EventEmitter<TodoModel>();
 
-  onCheckToggled(todo: TodoModel, event: CheckboxCustomEvent) {
-    this.checkToggled.emit({ ...todo, isDone: event.detail.checked });
+  constructor() {
+    addIcons({ trash });
+  }
+
+  onCheckedChange(todo: TodoModel, event: CheckboxCustomEvent) {
+    this.checkedChange.emit({ ...todo, isDone: event.detail.checked });
+  }
+
+  async onTodoDeleted(todo: TodoModel, sliding: IonItemSliding) {
+    await sliding.close();
+    this.todoDeleted.emit(todo);
   }
 }

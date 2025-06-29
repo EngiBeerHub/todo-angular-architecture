@@ -1,0 +1,16 @@
+<ion-loading [isOpen]="$isLoading()"></ion-loading>
+
+<ion-header>
+  <ion-toolbar>
+    <!-- TODO: for passing e2e. Remove later. -->
+    <ion-title>Welcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <lib-todo-list
+    [$todos]="$todos()"
+    (checkedChange)="onCheckedChange($event)"
+    (todoDeleted)="onTodoDeleted($event)"
+  ></lib-todo-list>
+</ion-content>
