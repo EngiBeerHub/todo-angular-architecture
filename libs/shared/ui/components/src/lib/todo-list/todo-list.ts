@@ -3,12 +3,14 @@ import {
   EventEmitter,
   input,
   InputSignal,
+  model,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonCheckbox,
   IonIcon,
+  IonInput,
   IonItem,
   IonItemOption,
   IonItemOptions,
@@ -19,6 +21,7 @@ import { TodoModel, TodosViewModel } from '@todo-angular-architecture/todo';
 import { CheckboxCustomEvent } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'lib-todo-list',
@@ -31,41 +34,38 @@ import { trash } from 'ionicons/icons';
     IonItemOptions,
     IonItemOption,
     IonIcon,
+    IonInput,
+    FormsModule,
   ],
-  template: `
-    <ion-list [inset]="true">
-      @for (todo of $todos().todos; track todo.id) {
-      <ion-item-sliding #sliding>
-        <ion-item>
-          <ion-checkbox
-            labelPlacement="end"
-            [checked]="todo.isDone"
-            (ionChange)="onCheckedChange(todo, $event)"
-            >{{ todo.title }}
-          </ion-checkbox>
-        </ion-item>
-        <ion-item-options slot="end">
-          <ion-item-option color="danger">
-            <ion-icon
-              slot="icon-only"
-              name="trash"
-              (click)="onTodoDeleted(todo, sliding)"
-            ></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
-      }
-    </ion-list>
-  `,
+  templateUrl: './todo-list.html',
   styles: ``,
 })
 export class TodoListComponent {
+  // input
   $todos: InputSignal<TodosViewModel> = input.required<TodosViewModel>();
+  // output
+  @Output() todoAdded = new EventEmitter<TodoModel>();
   @Output() checkedChange = new EventEmitter<TodoModel>();
   @Output() todoDeleted = new EventEmitter<TodoModel>();
+  // input and output
+  $isDrafting = model(false);
+  // draft value
+  newTodoTitle = '';
+  newTodoIsDone = false;
 
   constructor() {
     addIcons({ trash });
+  }
+
+  onAddConfirmed() {
+    this.todoAdded.emit({
+      id: null,
+      title: this.newTodoTitle,
+      description: null,
+      dueDate: null,
+      isDone: this.newTodoIsDone,
+    });
+    this.resetLocalState();
   }
 
   onCheckedChange(todo: TodoModel, event: CheckboxCustomEvent) {
@@ -75,5 +75,11 @@ export class TodoListComponent {
   async onTodoDeleted(todo: TodoModel, sliding: IonItemSliding) {
     await sliding.close();
     this.todoDeleted.emit(todo);
+  }
+
+  private resetLocalState() {
+    this.$isDrafting.set(false);
+    this.newTodoTitle = '';
+    this.newTodoIsDone = false;
   }
 }

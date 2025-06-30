@@ -1,31 +1,37 @@
 <ion-loading [isOpen]="$isLoading()"></ion-loading>
 
-<ion-header [translucent]="true" collapse="fade">
+<ion-header [translucent]="true">
   <ion-toolbar>
     <!-- TODO: for passing e2e. Remove later. -->
     <ion-title>Welcome</ion-title>
+    @if ($isDrafting()) {
+      <ion-buttons slot="end">
+        <ion-button (click)="$isDrafting.set(false)">完了</ion-button>
+      </ion-buttons>
+    }
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light">
-  <!-- plus, content is fullscreen -->
-  <!--  <ion-header collapse="condense">-->
-  <!--    <ion-toolbar>-->
-  <!--      <ion-title size="large">Welcome</ion-title>-->
-  <!--    </ion-toolbar>-->
-  <!--  </ion-header>-->
+<ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title size="large">Welcome</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
   <lib-todo-list
     [$todos]="$todos()"
+    (todoAdded)="onTodoAdded($event)"
     (checkedChange)="onCheckedChange($event)"
     (todoDeleted)="onTodoDeleted($event)"
+    [($isDrafting)]="$isDrafting"
   ></lib-todo-list>
 </ion-content>
 
 <ion-footer [translucent]="true" collapse="fade">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button>
+      <ion-button (click)="$isDrafting.set(true)">
         <ion-icon name="add-circle" style="margin-right: 8px"></ion-icon>
         新規
       </ion-button>

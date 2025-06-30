@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, OnInit, signal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoListComponent } from '@todo-angular-architecture/components';
 import {
@@ -40,6 +40,7 @@ export class TodoListPage implements OnInit {
   // view state
   $todos: Signal<TodosViewModel> = this.todoFacade.$todos;
   $isLoading = this.todoFacade.$isLoading;
+  $isDrafting = signal(false);
 
   constructor() {
     addIcons({ addCircle });
@@ -49,12 +50,11 @@ export class TodoListPage implements OnInit {
     this.todoFacade.fetchTodos();
   }
 
-  onAddButtonClicked() {
-    // TODO: not implemented yet
-  }
-
-  onAddTodo(todoToAdd: TodoModel) {
-    this.todoFacade.addTodo(todoToAdd);
+  onTodoAdded(todo: TodoModel) {
+    if (todo.title) {
+      this.todoFacade.addTodo(todo);
+    }
+    this.$isDrafting.set(false);
   }
 
   onCheckedChange(event: TodoModel) {

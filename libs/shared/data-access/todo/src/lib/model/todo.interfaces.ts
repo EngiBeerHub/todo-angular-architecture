@@ -1,16 +1,16 @@
 export interface TodoDto {
   id: number | null;
   title: string;
-  description: string;
-  dueDate: string;
+  description: string | null;
+  dueDate: string | null;
   isDone: boolean;
 }
 
 export interface TodoModel {
   id: number | null;
   title: string;
-  description: string;
-  dueDate: string;
+  description: string | null;
+  dueDate: string | null;
   isDone: boolean;
 }
 

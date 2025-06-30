@@ -13,7 +13,6 @@ export const todoReducer = createReducer<TodosState>(
   on(TodoActions.resetTodosState, () => initialTodosState),
   on(TodoActions.addTodo, (state) => ({
     ...state,
-    isLoading: true,
   })),
   on(TodoActions.addTodoSuccess, (state, { todo }) => ({
     ...state,

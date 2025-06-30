@@ -1,0 +1,36 @@
+<!--<ion-list [inset]="true">-->
+<ion-list>
+  @for (todo of $todos().todos; track todo.id) {
+    <ion-item-sliding #sliding>
+      <ion-item>
+        <ion-checkbox
+          labelPlacement="end"
+          [checked]="todo.isDone"
+          (ionChange)="onCheckedChange(todo, $event)"
+        >{{ todo.title }}
+        </ion-checkbox>
+      </ion-item>
+      <ion-item-options slot="end">
+        <ion-item-option color="danger">
+          <ion-icon
+            slot="icon-only"
+            name="trash"
+            (click)="onTodoDeleted(todo, sliding)"
+          ></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  }
+  @if ($isDrafting()) {
+    <ion-item-sliding>
+      <ion-item>
+        <ion-checkbox [(ngModel)]="newTodoIsDone"></ion-checkbox>
+        <ion-input
+          class="ion-margin-start"
+          autofocus="true"
+          [(ngModel)]="newTodoTitle"
+          (ionBlur)="onAddConfirmed()"></ion-input>
+      </ion-item>
+    </ion-item-sliding>
+  }
+</ion-list>
