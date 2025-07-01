@@ -4,7 +4,7 @@ import { TodoHttpService, TodoModel } from '@todo-angular-architecture/todo';
 import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TodoActions, TodoSelectors } from './index';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, concatMap, map, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class TodoEffects {
   addTodo$ = createEffect(() =>
     this.actions.pipe(
       ofType(TodoActions.addTodo.type),
-      switchMap(({ todo }) =>
+      concatMap(({ todo }) =>
         this.todoApi.post(todo).pipe(
           map((todo: TodoModel) => TodoActions.addTodoSuccess({ todo })),
           catchError(() => of(TodoActions.addTodoFailed()))
@@ -69,7 +69,7 @@ export class TodoEffects {
   updateTodo$ = createEffect(() =>
     this.actions.pipe(
       ofType(TodoActions.updateTodo.type),
-      switchMap(({ todo }) =>
+      concatMap(({ todo }) =>
         this.todoApi.put(todo).pipe(
           map((todo: TodoModel) => TodoActions.updateTodoSuccess({ todo })),
           catchError(() => of(TodoActions.updateTodoFailed()))
@@ -81,7 +81,7 @@ export class TodoEffects {
   deleteTodo$ = createEffect(() =>
     this.actions.pipe(
       ofType(TodoActions.deleteTodo.type),
-      switchMap(({ id }) =>
+      concatMap(({ id }) =>
         this.todoApi.delete(id).pipe(
           map((todo: TodoModel) =>
             TodoActions.deleteTodoSuccess({ id: todo.id as number })
