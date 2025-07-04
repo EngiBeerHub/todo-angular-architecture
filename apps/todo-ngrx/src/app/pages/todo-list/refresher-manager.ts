@@ -1,7 +1,10 @@
-import { effect, Signal, signal } from '@angular/core';
+import { computed, effect, Signal, signal } from '@angular/core';
 import { RefresherCustomEvent } from '@ionic/angular';
 
 export class RefresherManager {
+  $isRefreshing = computed(() => {
+    return this.refresherEvent() !== null;
+  });
   private readonly refresherEvent = signal<RefresherCustomEvent | null>(null);
 
   constructor(private readonly $isLoading: Signal<boolean>) {
@@ -11,10 +14,6 @@ export class RefresherManager {
         this.refresherEvent.set(null);
       }
     });
-  }
-
-  get isRefreshing(): boolean {
-    return this.refresherEvent() !== null;
   }
 
   onRefreshed(event: RefresherCustomEvent) {

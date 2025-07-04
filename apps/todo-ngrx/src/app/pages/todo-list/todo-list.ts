@@ -60,7 +60,7 @@ export class TodoListPage implements OnInit {
   private $_isLoading = this.todoFacade.$isLoading;
   protected $showLoading = computed(() => {
     // not show when pull to refresh
-    return this.$_isLoading() && !this.refresherManager.isRefreshing;
+    return this.$_isLoading() && !this.refresherManager.$isRefreshing();
   });
 
   constructor() {
