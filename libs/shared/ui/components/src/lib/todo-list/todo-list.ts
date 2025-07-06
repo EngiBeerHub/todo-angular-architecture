@@ -1,4 +1,4 @@
-import { Component, input, InputSignal, model, output } from '@angular/core';
+import { Component, input, model, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonCheckbox,
@@ -8,6 +8,7 @@ import {
   IonItemOption,
   IonItemOptions,
   IonItemSliding,
+  IonLabel,
   IonList,
 } from '@ionic/angular/standalone';
 import { TodoModel, TodosViewModel } from '@todo-angular-architecture/todo';
@@ -29,25 +30,33 @@ import { FormsModule } from '@angular/forms';
     IonIcon,
     IonInput,
     FormsModule,
+    IonLabel,
   ],
   templateUrl: './todo-list.html',
   styles: ``,
 })
 export class TodoListComponent {
   // input
-  $todos: InputSignal<TodosViewModel> = input.required<TodosViewModel>();
+  $todos = input.required<TodosViewModel>();
 
   // output
   todoAdded = output<TodoModel>();
   checkedChange = output<TodoModel>();
   todoDeleted = output<TodoModel>();
+  todoUpdated = output<TodoModel>();
 
   // input and output
   $isDrafting = model(false);
+  $isUpdating = model(false);
 
-  // draft value
+  // add draft value
   $newTodoTitle = model('');
   $newTodoIsDone = model(false);
+
+  // update draft value
+  $editingTodoId = signal<number | null>(null);
+  $editingTitle = model('');
+  $editingTodo = signal<TodoModel | null>(null);
 
   constructor() {
     addIcons({ trash });
@@ -65,7 +74,23 @@ export class TodoListComponent {
   }
 
   onCheckedChange(todo: TodoModel, event: CheckboxCustomEvent) {
+    console.log(`target: `, event.target);
+    console.log(`detail: `, event.detail);
     this.checkedChange.emit({ ...todo, isDone: event.detail.checked });
+  }
+
+  onStartEditing(todo: TodoModel) {
+    this.$isUpdating.set(true);
+    this.$editingTodoId.set(todo.id);
+    this.$editingTitle.set(todo.title);
+    this.$editingTodo.set(todo);
+  }
+
+  onEditConfirmed(todo: TodoModel) {
+    if (todo.title !== this.$editingTitle()) {
+      this.todoUpdated.emit({ ...todo, title: this.$editingTitle() });
+    }
+    this.$isUpdating.set(false);
   }
 
   async onTodoDeleted(todo: TodoModel, sliding: IonItemSliding) {
@@ -77,5 +102,8 @@ export class TodoListComponent {
     this.$isDrafting.set(false);
     this.$newTodoTitle.set('');
     this.$newTodoIsDone.set(false);
+    this.$editingTodoId.set(null);
+    this.$editingTitle.set('');
+    this.$editingTodo.set(null);
   }
 }

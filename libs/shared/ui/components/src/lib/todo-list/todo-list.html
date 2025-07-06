@@ -4,12 +4,30 @@
     <ion-item-sliding #sliding>
       <ion-item>
         <ion-checkbox
-          labelPlacement="end"
+          slot="start"
+          justify="start"
           [checked]="todo.isDone"
           (ionChange)="onCheckedChange(todo, $event)"
-        >{{ todo.title }}
+        >
         </ion-checkbox>
+
+        @if ($editingTodoId() === todo.id) {
+          <!-- update mode -->
+          <ion-input
+            class="ion-no-padding"
+            autofocus="true"
+            [(ngModel)]="$editingTitle"
+            (ionBlur)="onEditConfirmed(todo)"
+          >
+          </ion-input>
+        } @else {
+          <!-- view mode -->
+          <ion-label (click)="onStartEditing(todo)">
+            {{ todo.title }}
+          </ion-label>
+        }
       </ion-item>
+
       <ion-item-options slot="end">
         <ion-item-option color="danger">
           <ion-icon
@@ -21,7 +39,9 @@
       </ion-item-options>
     </ion-item-sliding>
   }
+
   @if ($isDrafting()) {
+    <!-- add mode -->
     <ion-item-sliding>
       <ion-item>
         <ion-checkbox [(ngModel)]="$newTodoIsDone"></ion-checkbox>

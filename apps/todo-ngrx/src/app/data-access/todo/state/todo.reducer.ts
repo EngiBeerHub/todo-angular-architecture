@@ -40,14 +40,15 @@ export const todoReducer = createReducer<TodosState>(
     isLoading: false,
     error: 'Failed to fetch todos!',
   })),
-  on(TodoActions.updateTodo, (state) => ({
+  on(TodoActions.updateTodo, (state, { todo }) => ({
     ...state,
+    // optimistically update todos
+    todos: state.todos.map((td) => (td.id === todo.id ? todo : td)),
     // No loading for preventing aborting user interaction
   })),
-  on(TodoActions.updateTodoSuccess, (state, { todo }) => ({
+  on(TodoActions.updateTodoSuccess, (state) => ({
     ...state,
     isLoading: false,
-    todos: state.todos.map((td) => (td.id === todo.id ? todo : td)),
     error: null,
   })),
   on(TodoActions.updateTodoFailed, (state) => ({

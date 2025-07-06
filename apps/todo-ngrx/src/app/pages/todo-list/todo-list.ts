@@ -57,6 +57,7 @@ export class TodoListPage implements OnInit {
   // view state
   protected $todos: Signal<TodosViewModel> = this.todoFacade.$todos;
   protected $isDrafting = signal(false);
+  protected $isUpdating = signal(false);
   private $_isLoading = this.todoFacade.$isLoading;
   protected $showLoading = computed(() => {
     // not show when pull to refresh
@@ -76,6 +77,11 @@ export class TodoListPage implements OnInit {
     this.todoFacade.fetchTodos();
   }
 
+  onCompleteClicked() {
+    this.$isDrafting.set(false);
+    this.$isUpdating.set(false);
+  }
+
   onTodoAdded(todo: TodoModel) {
     if (todo.title) {
       this.todoFacade.addTodo(todo);
@@ -83,13 +89,19 @@ export class TodoListPage implements OnInit {
     this.$isDrafting.set(false);
   }
 
-  onCheckedChange(event: TodoModel) {
-    this.todoFacade.updateTodo(event);
+  onCheckedChange(todo: TodoModel) {
+    this.todoFacade.updateTodo(todo);
   }
 
-  onTodoDeleted(event: TodoModel) {
-    if (event.id) {
-      this.todoFacade.deleteTodo(event.id);
+  onTodoUpdated(todo: TodoModel) {
+    if (!todo.id) throw new Error('todo.id is null.');
+    if (todo.title) this.todoFacade.updateTodo(todo);
+    else this.todoFacade.deleteTodo(todo.id);
+  }
+
+  onTodoDeleted(todo: TodoModel) {
+    if (todo.id) {
+      this.todoFacade.deleteTodo(todo.id);
     }
   }
 }

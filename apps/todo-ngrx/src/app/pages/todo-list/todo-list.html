@@ -4,9 +4,9 @@
   <ion-toolbar>
     <!-- TODO: for passing e2e. Remove later. -->
     <ion-title>Welcome</ion-title>
-    @if ($isDrafting()) {
+    @if ($isDrafting() || $isUpdating()) {
       <ion-buttons slot="end">
-        <ion-button (click)="$isDrafting.set(false)">完了</ion-button>
+        <ion-button (click)="onCompleteClicked()">完了</ion-button>
       </ion-buttons>
     }
   </ion-toolbar>
@@ -27,8 +27,10 @@
     [$todos]="$todos()"
     (todoAdded)="onTodoAdded($event)"
     (checkedChange)="onCheckedChange($event)"
+    (todoUpdated)="onTodoUpdated($event)"
     (todoDeleted)="onTodoDeleted($event)"
     [($isDrafting)]="$isDrafting"
+    [($isUpdating)]="$isUpdating"
   ></lib-todo-list>
 </ion-content>
 
