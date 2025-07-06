@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonButton,
@@ -13,6 +13,9 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { CategoryFacade } from '../../data-access/category/facades/category.facade';
+import { CategoryListComponent } from '@todo-angular-architecture/components';
+import { RefresherManager } from '../../utils/refresher-manager';
 
 @Component({
   selector: 'app-category-list',
@@ -29,8 +32,23 @@ import {
     IonIcon,
     IonRefresher,
     IonRefresherContent,
+    CategoryListComponent,
   ],
   templateUrl: './category-list.html',
   styleUrl: './category-list.scss',
 })
-export class CategoryListPage {}
+export class CategoryListPage {
+  // deps
+  protected readonly categoryFacade = inject(CategoryFacade);
+  private readonly refresherManager = new RefresherManager(
+    this.categoryFacade.$isLoading
+  );
+
+  // view state
+  protected $categories = this.categoryFacade.$categories;
+  protected $showLoading = computed(() => {
+    return (
+      this.categoryFacade.$isLoading() && !this.refresherManager.$isRefreshing()
+    );
+  });
+}

@@ -11,7 +11,7 @@ export interface CategoryModel {
 }
 
 export interface CategoryViewModel {
-  todos: CategoryModel[];
+  categories: CategoryModel[];
 }
 
 export interface CategoryState {

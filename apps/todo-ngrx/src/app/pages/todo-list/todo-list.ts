@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  OnInit,
-  signal,
-  Signal,
-} from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoListComponent } from '@todo-angular-architecture/components';
 import {
@@ -21,10 +14,10 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
-import { TodoModel, TodosViewModel } from '@todo-angular-architecture/todo';
+import { TodoModel } from '@todo-angular-architecture/todo';
 import { TodoFacade } from '../../data-access/todo/facades/todo.facade';
 import { RefresherCustomEvent } from '@ionic/angular';
-import { RefresherManager } from './helper/refresher-manager';
+import { RefresherManager } from '../../utils/refresher-manager';
 
 @Component({
   imports: [
@@ -53,13 +46,14 @@ export class TodoListPage implements OnInit {
   );
 
   // view state
-  protected $todos: Signal<TodosViewModel> = this.todoFacade.$todos;
+  protected $todos = this.todoFacade.$todos;
   protected $isDrafting = signal(false);
   protected $isUpdating = signal(false);
-  private $_isLoading = this.todoFacade.$isLoading;
   protected $showLoading = computed(() => {
     // not show when pull to refresh
-    return this.$_isLoading() && !this.refresherManager.$isRefreshing();
+    return (
+      this.todoFacade.$isLoading() && !this.refresherManager.$isRefreshing()
+    );
   });
 
   ngOnInit() {

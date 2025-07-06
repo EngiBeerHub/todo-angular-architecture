@@ -1,5 +1,4 @@
-<!--TODO: isOpen-->
-<ion-loading></ion-loading>
+<ion-loading [isOpen]="$showLoading()"></ion-loading>
 
 <ion-header [translucent]="true">
   <ion-toolbar>
@@ -7,9 +6,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content color="light" [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar>
+    <ion-toolbar color="light">
       <ion-title size="large">My List</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -18,6 +17,8 @@
   <ion-refresher slot="fixed">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
+  <lib-category-list [$categories]="$categories()"></lib-category-list>
 </ion-content>
 
 <ion-footer [translucent]="true" collapse="fade">

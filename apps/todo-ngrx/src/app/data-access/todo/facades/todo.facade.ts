@@ -14,16 +14,17 @@ import { TodoActions, TodoSelectors } from '../state';
 export class TodoFacade implements ITodoFacade {
   protected readonly store = inject(Store);
 
-  $todosSignal = toSignal(this.store.select(TodoSelectors.selectTodos), {
-    initialValue: [],
-  });
+  private $_todosSignal = toSignal(
+    this.store.select(TodoSelectors.selectTodos),
+    {
+      initialValue: [],
+    }
+  );
 
   // Effective AngularではinclVatなどを組み合わせていたためcomputedが必要だった
-  $todos = computed<TodosViewModel>(() => {
-    return {
-      todos: this.$todosSignal(),
-    };
-  });
+  $todos = computed<TodosViewModel>(() => ({
+    todos: this.$_todosSignal(),
+  }));
 
   $isLoading = toSignal(this.store.select(TodoSelectors.selectIsLoading), {
     initialValue: false,
@@ -36,7 +37,7 @@ export class TodoFacade implements ITodoFacade {
   addTodo(todo: TodoModel): void {
     // APIがidを採番してくれないためサンプルアプリ固有でidをインクリメントする
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const maxId = Math.max(0, ...this.$todosSignal().map((todo) => todo.id!));
+    const maxId = Math.max(0, ...this.$_todosSignal().map((todo) => todo.id!));
     todo.id = maxId + 1;
     this.store.dispatch(TodoActions.addTodo({ todo }));
   }

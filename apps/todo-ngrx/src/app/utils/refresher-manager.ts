@@ -7,7 +7,10 @@ export class RefresherManager {
   });
   private readonly refresherEvent = signal<RefresherCustomEvent | null>(null);
 
-  constructor(private readonly $isLoading: Signal<boolean>) {
+  constructor(
+    // when finish loading, finish refresh
+    private readonly $isLoading: Signal<boolean>
+  ) {
     effect(() => {
       if (!this.$isLoading() && this.refresherEvent()) {
         void this.refresherEvent()?.target.complete();
