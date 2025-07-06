@@ -42,7 +42,6 @@ export class TodoFacade implements ITodoFacade {
   }
 
   fetchTodos(): void {
-    console.log('facade.fetch');
     this.store.dispatch(TodoActions.fetchTodos());
   }
 

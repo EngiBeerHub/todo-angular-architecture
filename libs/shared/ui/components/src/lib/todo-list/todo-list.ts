@@ -74,8 +74,6 @@ export class TodoListComponent {
   }
 
   onCheckedChange(todo: TodoModel, event: CheckboxCustomEvent) {
-    console.log(`target: `, event.target);
-    console.log(`detail: `, event.detail);
     this.checkedChange.emit({ ...todo, isDone: event.detail.checked });
   }
 
