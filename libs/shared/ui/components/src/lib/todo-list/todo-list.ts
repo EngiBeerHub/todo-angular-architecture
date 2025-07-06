@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  input,
-  InputSignal,
-  model,
-  Output,
-} from '@angular/core';
+import { Component, input, InputSignal, model, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonCheckbox,
@@ -44,9 +37,9 @@ export class TodoListComponent {
   // input
   $todos: InputSignal<TodosViewModel> = input.required<TodosViewModel>();
   // output
-  @Output() todoAdded = new EventEmitter<TodoModel>();
-  @Output() checkedChange = new EventEmitter<TodoModel>();
-  @Output() todoDeleted = new EventEmitter<TodoModel>();
+  todoAdded = output<TodoModel>();
+  checkedChange = output<TodoModel>();
+  todoDeleted = output<TodoModel>();
   // input and output
   $isDrafting = model(false);
   // draft value
