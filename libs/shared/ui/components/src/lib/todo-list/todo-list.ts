@@ -36,15 +36,18 @@ import { FormsModule } from '@angular/forms';
 export class TodoListComponent {
   // input
   $todos: InputSignal<TodosViewModel> = input.required<TodosViewModel>();
+
   // output
   todoAdded = output<TodoModel>();
   checkedChange = output<TodoModel>();
   todoDeleted = output<TodoModel>();
+
   // input and output
   $isDrafting = model(false);
+
   // draft value
-  newTodoTitle = '';
-  newTodoIsDone = false;
+  $newTodoTitle = model('');
+  $newTodoIsDone = model(false);
 
   constructor() {
     addIcons({ trash });
@@ -53,10 +56,10 @@ export class TodoListComponent {
   onAddConfirmed() {
     this.todoAdded.emit({
       id: null,
-      title: this.newTodoTitle,
+      title: this.$newTodoTitle(),
       description: null,
       dueDate: null,
-      isDone: this.newTodoIsDone,
+      isDone: this.$newTodoIsDone(),
     });
     this.resetLocalState();
   }
@@ -72,7 +75,7 @@ export class TodoListComponent {
 
   private resetLocalState() {
     this.$isDrafting.set(false);
-    this.newTodoTitle = '';
-    this.newTodoIsDone = false;
+    this.$newTodoTitle.set('');
+    this.$newTodoIsDone.set(false);
   }
 }
