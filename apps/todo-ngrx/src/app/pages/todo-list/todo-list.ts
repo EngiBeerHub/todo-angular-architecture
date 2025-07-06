@@ -26,7 +26,7 @@ import { TodoFacade } from '../../data-access/todo/facades/todo.facade';
 import { addIcons } from 'ionicons';
 import { addCircle } from 'ionicons/icons';
 import { RefresherCustomEvent } from '@ionic/angular';
-import { RefresherManager } from './refresher-manager';
+import { RefresherManager } from './helper/refresher-manager';
 
 @Component({
   imports: [
