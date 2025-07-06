@@ -7,6 +7,13 @@ export const appRoutes: Route[] = [
     redirectTo: '/todo-list',
   },
   {
+    path: 'category-list',
+    loadComponent: () =>
+      import('./pages/category-list/category-list').then(
+        (m) => m.CategoryListPage
+      ),
+  },
+  {
     path: 'todo-list',
     loadComponent: () =>
       import('./pages/todo-list/todo-list').then((m) => m.TodoListPage),
