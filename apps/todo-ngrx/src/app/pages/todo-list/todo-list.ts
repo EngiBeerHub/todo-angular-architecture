@@ -23,8 +23,6 @@ import {
 } from '@ionic/angular/standalone';
 import { TodoModel, TodosViewModel } from '@todo-angular-architecture/todo';
 import { TodoFacade } from '../../data-access/todo/facades/todo.facade';
-import { addIcons } from 'ionicons';
-import { addCircle } from 'ionicons/icons';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { RefresherManager } from './helper/refresher-manager';
 
@@ -63,10 +61,6 @@ export class TodoListPage implements OnInit {
     // not show when pull to refresh
     return this.$_isLoading() && !this.refresherManager.$isRefreshing();
   });
-
-  constructor() {
-    addIcons({ addCircle });
-  }
 
   ngOnInit() {
     this.todoFacade.fetchTodos();

@@ -1,1 +1,32 @@
-<p>category-list works!</p>
+<!--TODO: isOpen-->
+<ion-loading></ion-loading>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>My List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">My List</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- TODO: function -->
+  <ion-refresher slot="fixed">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+</ion-content>
+
+<ion-footer [translucent]="true" collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="add-circle" style="margin-right: 8px"></ion-icon>
+        新規
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
