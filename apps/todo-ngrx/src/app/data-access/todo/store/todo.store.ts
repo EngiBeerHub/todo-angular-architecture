@@ -1,15 +1,16 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { TodoHttpService } from '@todo-angular-architecture/todo';
-import { TodoModel } from '@todo-angular-architecture/todo';
+import { TodoHttpService, TodoModel } from '@todo-angular-architecture/todo';
 import { Observable, Subject } from 'rxjs';
 
+/**
+ * NgRxを使わない場合のStore実装
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class TodoStore {
   protected todoApi = inject(TodoHttpService);
 
-  // これは何に使う？Selectedも用意していない。
   private todo: Subject<TodoModel> = new Subject();
   todo$: Observable<TodoModel> = this.todo.asObservable();
 
