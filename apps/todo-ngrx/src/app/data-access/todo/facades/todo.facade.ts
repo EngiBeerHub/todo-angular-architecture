@@ -15,7 +15,7 @@ export class TodoFacade implements ITodoFacade {
   protected readonly store = inject(Store);
 
   private $_todosSignal = toSignal(
-    this.store.select(TodoSelectors.selectTodos),
+    this.store.select(TodoSelectors.selectAllTodos),
     {
       initialValue: [],
     }

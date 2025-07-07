@@ -14,7 +14,7 @@ export class TodoEffects {
   private readonly todoApi = inject(TodoHttpService);
   protected readonly store = inject(Store);
 
-  $todoSignal = toSignal(this.store.select(TodoSelectors.selectTodos), {
+  $todoSignal = toSignal(this.store.select(TodoSelectors.selectAllTodos), {
     initialValue: [],
   });
 

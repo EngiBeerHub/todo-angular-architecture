@@ -1,21 +1,20 @@
 import { TodoActions } from './index';
 import { TodosState } from '@todo-angular-architecture/todo';
 import { createReducer, on } from '@ngrx/store';
+import { todoEntityAdapter } from './todo.entity';
 
-export const initialTodosState: Readonly<TodosState> = {
-  todos: [],
+export const initialTodosState = todoEntityAdapter.getInitialState({
   isLoading: false,
   error: null,
-};
+});
 
 export const todoReducer = createReducer<TodosState>(
   initialTodosState,
   on(TodoActions.resetTodosState, () => initialTodosState),
-  on(TodoActions.addTodo, (state, { todo }) => ({
-    ...state,
+  on(TodoActions.addTodo, (state, { todo }) =>
     // optimistically update state
-    todos: [...state.todos, todo],
-  })),
+    todoEntityAdapter.addOne(todo, state)
+  ),
   on(TodoActions.addTodoSuccess, (state) => ({
     ...state,
     isLoading: false,
@@ -30,23 +29,23 @@ export const todoReducer = createReducer<TodosState>(
     ...state,
     isLoading: true,
   })),
-  on(TodoActions.fetchTodosSuccess, (state, { todos }) => ({
-    ...state,
-    isLoading: false,
-    todos,
-    error: null,
-  })),
+  on(TodoActions.fetchTodosSuccess, (state, { todos }) =>
+    todoEntityAdapter.setAll(todos, {
+      ...state,
+      isLoading: false,
+      error: null,
+    })
+  ),
   on(TodoActions.fetchTodosFailed, (state) => ({
     ...state,
     isLoading: false,
     error: 'Failed to fetch todos!',
   })),
-  on(TodoActions.updateTodo, (state, { todo }) => ({
-    ...state,
-    // optimistically update todos
-    todos: state.todos.map((td) => (td.id === todo.id ? todo : td)),
-    // No loading for preventing aborting user interaction
-  })),
+  on(TodoActions.updateTodo, (state, { todo }) =>
+    todo.id
+      ? todoEntityAdapter.updateOne({ id: todo.id, changes: todo }, state)
+      : state
+  ),
   on(TodoActions.updateTodoSuccess, (state) => ({
     ...state,
     isLoading: false,
@@ -57,12 +56,9 @@ export const todoReducer = createReducer<TodosState>(
     isLoading: false,
     error: 'Failed to update todo!',
   })),
-  on(TodoActions.deleteTodo, (state, { id }) => ({
-    ...state,
-    // optimistically update state
-    todos: state.todos.filter((todo) => todo.id !== id),
-    // No loading for preventing aborting user interaction
-  })),
+  on(TodoActions.deleteTodo, (state, { id }) =>
+    todoEntityAdapter.removeOne(id, state)
+  ),
   on(TodoActions.deleteTodoSuccess, (state) => ({
     ...state,
     isLoading: false,
