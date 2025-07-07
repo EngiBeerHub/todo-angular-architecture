@@ -9,6 +9,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MockInterceptor } from '@todo-angular-architecture/generic-http';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { todoFeatureKey } from './data-access/todo/state/feature-key';
+import { CategoryEffects, categoryReducer } from './data-access/category/state';
+import { categoryFeatureKey } from './data-access/category/state/feature-key';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +24,8 @@ export const appConfig: ApplicationConfig = {
     //   connectInZone: true, // If set to true, the connection is established within the Angular zone
     // }
     provideState({ name: todoFeatureKey, reducer: todoReducer }),
-    provideEffects(TodoEffects),
+    provideState({ name: categoryFeatureKey, reducer: categoryReducer }),
+    provideEffects(TodoEffects, CategoryEffects),
     // provideAnimations(),
     provideHttpClient(withInterceptors([MockInterceptor])),
     provideZoneChangeDetection({ eventCoalescing: true }),

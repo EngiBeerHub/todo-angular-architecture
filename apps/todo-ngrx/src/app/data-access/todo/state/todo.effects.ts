@@ -14,9 +14,12 @@ export class TodoEffects {
   private readonly todoApi = inject(TodoHttpService);
   protected readonly store = inject(Store);
 
-  $todoSignal = toSignal(this.store.select(TodoSelectors.selectAllTodos), {
-    initialValue: [],
-  });
+  private $_todoSignal = toSignal(
+    this.store.select(TodoSelectors.selectAllTodos),
+    {
+      initialValue: [],
+    }
+  );
 
   addTodo$ = createEffect(() =>
     this.actions.pipe(
@@ -46,7 +49,7 @@ export class TodoEffects {
     this.actions.pipe(
       ofType(TodoActions.getTodo.type),
       switchMap(({ id }) => {
-        const todo = this.$todoSignal().find((todo) => todo.id === id);
+        const todo = this.$_todoSignal().find((todo) => todo.id === id);
         return todo
           ? of(TodoActions.getTodoSuccess({ todo }))
           : this.todoApi.getById(id).pipe(

@@ -1,138 +1,54 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import {
   CategoryModel,
   CategoryViewModel,
   ICategoryFacade,
 } from '@todo-angular-architecture/todo';
+import { Store } from '@ngrx/store';
+import { CategoryActions, CategorySelectors } from '../state';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryFacade implements ICategoryFacade {
-  $categories = signal({ categories: [] } as CategoryViewModel);
-  $isLoading = signal(false);
+  protected readonly store = inject(Store);
 
-  constructor() {
-    // FIXME: mock implementation
-    this.$isLoading.set(true);
-    setTimeout(() => {
-      this.$categories.set({
-        categories: [
-          { id: 1, title: 'Work', description: 'Tasks related to work' },
-          {
-            id: 2,
-            title: 'Personal',
-            description: 'Personal to-dos and errands',
-          },
-          { id: 3, title: 'Shopping', description: 'Shopping list items' },
-          {
-            id: 4,
-            title: 'Health',
-            description: 'Exercise and wellness goals',
-          },
-          {
-            id: 5,
-            title: 'Finance',
-            description: 'Budgeting and financial tasks',
-          },
-          { id: 6, title: 'Travel', description: 'Trip planning and bookings' },
-          { id: 7, title: 'Home', description: 'Household chores and repairs' },
-          {
-            id: 8,
-            title: 'Learning',
-            description: 'Courses and reading lists',
-          },
-          {
-            id: 9,
-            title: 'Social',
-            description: 'Meetups and calls with friends',
-          },
-          { id: 10, title: 'Other', description: null },
-          {
-            id: 11,
-            title: 'Fitness',
-            description: 'Workout and training plans',
-          },
-          {
-            id: 12,
-            title: 'Career',
-            description: 'Job search and career goals',
-          },
-          {
-            id: 13,
-            title: 'Pets',
-            description: 'Pet care tasks and vet visits',
-          },
-          {
-            id: 14,
-            title: 'Kids',
-            description: 'Parenting and children’s activities',
-          },
-          {
-            id: 15,
-            title: 'Events',
-            description: 'Event planning and invitations',
-          },
-          {
-            id: 16,
-            title: 'Volunteer',
-            description: 'Community service and giving back',
-          },
-          {
-            id: 17,
-            title: 'Reading',
-            description: 'Books and articles to read',
-          },
-          {
-            id: 18,
-            title: 'Writing',
-            description: 'Blog posts and writing tasks',
-          },
-          {
-            id: 19,
-            title: 'Cleaning',
-            description: 'Household cleaning tasks',
-          },
-          { id: 20, title: 'Gardening', description: 'Garden and plant care' },
-          {
-            id: 21,
-            title: 'Meal Prep',
-            description: 'Meal planning and recipes',
-          },
-          {
-            id: 22,
-            title: 'Technology',
-            description: 'Device setup and troubleshooting',
-          },
-          {
-            id: 23,
-            title: 'Entertainment',
-            description: 'Movies and shows to watch',
-          },
-          { id: 24, title: 'Goals', description: 'Short- and long-term goals' },
-          { id: 25, title: 'Inbox', description: null },
-        ],
-      });
-      this.$isLoading.set(false);
-    }, 1000);
-  }
+  private $_categoriesSignal = toSignal(
+    this.store.select(CategorySelectors.selectAllCategories),
+    { initialValue: [] }
+  );
+
+  $categories = computed<CategoryViewModel>(() => ({
+    categories: this.$_categoriesSignal(),
+  }));
+
+  $isLoading = toSignal(this.store.select(CategorySelectors.selectIsLoading), {
+    initialValue: false,
+  });
 
   resetCategoriesState(): void {
-    throw new Error('Method not implemented.');
+    this.store.dispatch(CategoryActions.resetCategoriesState());
   }
   addCategory(category: CategoryModel): void {
-    throw new Error('Method not implemented.');
+    const maxId = Math.max(
+      0,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ...this.$_categoriesSignal().map((category) => category.id!)
+    );
+    category.id = maxId + 1;
+    this.store.dispatch(CategoryActions.addCategory({ category }));
   }
   fetchCategories(): void {
-    throw new Error('Method not implemented.');
+    this.store.dispatch(CategoryActions.fetchCategories());
   }
   getCategory(id: number): void {
-    throw new Error('Method not implemented.');
+    this.store.dispatch(CategoryActions.getCategory({ id }));
   }
   updateCategory(category: CategoryModel): void {
-    throw new Error('Method not implemented.');
+    this.store.dispatch(CategoryActions.updateCategory({ category }));
   }
   deleteCategory(id: number): void {
-    throw new Error('Method not implemented.');
+    this.store.dispatch(CategoryActions.deleteCategory({ id }));
   }
 }
