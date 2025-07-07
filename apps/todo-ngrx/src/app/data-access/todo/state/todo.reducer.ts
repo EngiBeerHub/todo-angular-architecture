@@ -11,13 +11,14 @@ export const initialTodosState: Readonly<TodosState> = {
 export const todoReducer = createReducer<TodosState>(
   initialTodosState,
   on(TodoActions.resetTodosState, () => initialTodosState),
-  on(TodoActions.addTodo, (state) => ({
+  on(TodoActions.addTodo, (state, { todo }) => ({
     ...state,
+    // optimistically update state
+    todos: [...state.todos, todo],
   })),
-  on(TodoActions.addTodoSuccess, (state, { todo }) => ({
+  on(TodoActions.addTodoSuccess, (state) => ({
     ...state,
     isLoading: false,
-    todos: [...state.todos, todo],
     error: null,
   })),
   on(TodoActions.addTodoFailed, (state) => ({
@@ -56,14 +57,15 @@ export const todoReducer = createReducer<TodosState>(
     isLoading: false,
     error: 'Failed to update todo!',
   })),
-  on(TodoActions.deleteTodo, (state) => ({
+  on(TodoActions.deleteTodo, (state, { id }) => ({
     ...state,
+    // optimistically update state
+    todos: state.todos.filter((todo) => todo.id !== id),
     // No loading for preventing aborting user interaction
   })),
-  on(TodoActions.deleteTodoSuccess, (state, { id }) => ({
+  on(TodoActions.deleteTodoSuccess, (state) => ({
     ...state,
     isLoading: false,
-    todos: state.todos.filter((todo) => todo.id !== id),
     error: null,
   })),
   on(TodoActions.deleteTodoFailed, (state) => ({
