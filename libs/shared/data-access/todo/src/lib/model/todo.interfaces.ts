@@ -2,6 +2,7 @@ import { EntityState } from '@ngrx/entity';
 
 export interface TodoDto {
   id: number | null;
+  categoryId: number | null;
   title: string;
   description: string | null;
   dueDate: string | null;
@@ -10,6 +11,7 @@ export interface TodoDto {
 
 export interface TodoModel {
   id: number | null;
+  categoryId: number | null;
   title: string;
   description: string | null;
   dueDate: string | null;

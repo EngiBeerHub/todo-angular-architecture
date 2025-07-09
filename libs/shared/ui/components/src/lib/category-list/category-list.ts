@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonIcon,
@@ -9,7 +9,10 @@ import {
   IonLabel,
   IonList,
 } from '@ionic/angular/standalone';
-import { CategoryViewModel } from '@todo-angular-architecture/todo';
+import {
+  CategoryModel,
+  CategoryViewModel,
+} from '@todo-angular-architecture/todo';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
 
@@ -29,9 +32,21 @@ import { trash } from 'ionicons/icons';
   styleUrl: './category-list.scss',
 })
 export class CategoryListComponent {
+  categorySelected = output<number>();
+  categoryDeleted = output<CategoryModel>();
+
   constructor() {
     addIcons({ trash });
   }
   // input
   $categories = input.required<CategoryViewModel>();
+
+  onCategorySelected(categoryId: number | null) {
+    if (categoryId) this.categorySelected.emit(categoryId);
+  }
+
+  async onCategoryDeleted(category: CategoryModel, sliding: IonItemSliding) {
+    await sliding.close();
+    this.categoryDeleted.emit(category);
+  }
 }

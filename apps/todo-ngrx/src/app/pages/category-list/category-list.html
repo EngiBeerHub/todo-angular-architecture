@@ -17,7 +17,11 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <lib-category-list [$categories]="$categories()"></lib-category-list>
+  <lib-category-list
+    [$categories]="$categories()"
+    (categorySelected)="onCategorySelected($event)"
+    (categoryDeleted)="onCategoryDeleted($event)"
+  ></lib-category-list>
 </ion-content>
 
 <ion-footer [translucent]="true" collapse="fade">

@@ -1,7 +1,7 @@
 <ion-list [inset]="true">
   @for (category of $categories().categories; track category.id) {
     <ion-item-sliding #sliding>
-      <ion-item [button]="true">
+      <ion-item [button]="true" (click)="onCategorySelected(category.id)">
         <ion-label>{{ category.title }}</ion-label>
       </ion-item>
 
@@ -10,6 +10,7 @@
           <ion-icon
             slot="icon-only"
             name="trash"
+            (click)="onCategoryDeleted(category, sliding)"
           ></ion-icon>
         </ion-item-option>
       </ion-item-options>

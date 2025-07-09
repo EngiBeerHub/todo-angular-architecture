@@ -17,6 +17,8 @@ import { CategoryFacade } from '../../data-access/category/facades/category.faca
 import { CategoryListComponent } from '@todo-angular-architecture/components';
 import { RefresherManager } from '../../utils/refresher-manager';
 import { RefresherCustomEvent } from '@ionic/angular';
+import { CategoryModel } from '@todo-angular-architecture/todo';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-category-list',
@@ -44,6 +46,7 @@ export class CategoryListPage implements OnInit {
   private readonly refresherManager = new RefresherManager(
     this.categoryFacade.$isLoading
   );
+  private readonly router = inject(Router);
 
   // view state
   protected $categories = this.categoryFacade.$categories;
@@ -60,5 +63,13 @@ export class CategoryListPage implements OnInit {
   onRefreshed(event: RefresherCustomEvent) {
     this.refresherManager.onRefreshed(event);
     this.categoryFacade.fetchCategories();
+  }
+
+  onCategorySelected(categoryId: number) {
+    void this.router.navigate(['/category', categoryId, 'todos']);
+  }
+
+  onCategoryDeleted(category: CategoryModel) {
+    if (category.id) this.categoryFacade.deleteCategory(category.id);
   }
 }

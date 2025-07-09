@@ -65,6 +65,7 @@ export class TodoListComponent {
   onAddConfirmed() {
     this.todoAdded.emit({
       id: null,
+      categoryId: null,
       title: this.$newTodoTitle(),
       description: null,
       dueDate: null,

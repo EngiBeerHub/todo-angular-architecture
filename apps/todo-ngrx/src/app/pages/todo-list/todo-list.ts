@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoListComponent } from '@todo-angular-architecture/components';
 import {
@@ -38,7 +38,7 @@ import { RefresherManager } from '../../utils/refresher-manager';
   templateUrl: './todo-list.html',
   styles: ``,
 })
-export class TodoListPage implements OnInit {
+export class TodoListPage {
   // dependencies
   protected readonly todoFacade = inject(TodoFacade);
   private readonly refresherManager = new RefresherManager(
@@ -55,10 +55,6 @@ export class TodoListPage implements OnInit {
       this.todoFacade.$isLoading() && !this.refresherManager.$isRefreshing()
     );
   });
-
-  ngOnInit() {
-    this.todoFacade.fetchTodos();
-  }
 
   onRefreshed(event: RefresherCustomEvent) {
     this.refresherManager.onRefreshed(event);

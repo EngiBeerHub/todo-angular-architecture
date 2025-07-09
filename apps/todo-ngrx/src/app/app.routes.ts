@@ -14,6 +14,11 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'category/:categoryId/todos',
+    loadComponent: () =>
+      import('./pages/todo-list/todo-list').then((m) => m.TodoListPage),
+  },
+  {
     path: 'todo-list',
     loadComponent: () =>
       import('./pages/todo-list/todo-list').then((m) => m.TodoListPage),
