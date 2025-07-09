@@ -73,7 +73,6 @@ export class TodoStore {
     });
   }
 
-  // TODO: deleted select
   private fetchTodoById(id: number) {
     this.todoApi.getById(id).subscribe({
       next: (todo) => this.todo.next(todo),

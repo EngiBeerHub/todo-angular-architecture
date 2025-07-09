@@ -9,7 +9,6 @@ import {
 import { isDevMode } from '@angular/core';
 import { delay, map } from 'rxjs';
 
-// TODO: 必要あれば直す
 export const MockInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
