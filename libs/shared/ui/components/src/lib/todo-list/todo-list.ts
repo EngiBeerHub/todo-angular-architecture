@@ -16,6 +16,7 @@ import { CheckboxCustomEvent } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
+import { sleep } from '../utils/sleep';
 
 @Component({
   selector: 'lib-todo-list',
@@ -94,6 +95,7 @@ export class TodoListComponent {
 
   async onTodoDeleted(todo: TodoModel, sliding: IonItemSliding) {
     await sliding.close();
+    await sleep(400);
     this.todoDeleted.emit(todo);
   }
 

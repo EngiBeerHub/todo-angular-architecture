@@ -15,6 +15,7 @@ import {
 } from '@todo-angular-architecture/todo';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
+import { sleep } from '../utils/sleep';
 
 @Component({
   selector: 'lib-category-list',
@@ -47,6 +48,7 @@ export class CategoryListComponent {
 
   async onCategoryDeleted(category: CategoryModel, sliding: IonItemSliding) {
     await sliding.close();
+    await sleep(400);
     this.categoryDeleted.emit(category);
   }
 }
