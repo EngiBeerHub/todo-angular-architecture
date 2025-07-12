@@ -38,7 +38,7 @@ import { Router } from '@angular/router';
     CategoryListComponent,
   ],
   templateUrl: './category-list.html',
-  styleUrl: './category-list.scss',
+  styles: ``,
 })
 export class CategoryListPage {
   // deps
