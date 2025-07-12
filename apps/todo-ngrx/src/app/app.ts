@@ -4,6 +4,7 @@ import { IonRouterOutlet } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addCircle } from 'ionicons/icons';
 import { TodoFacade } from './data-access/todo/facades/todo.facade';
+import { CategoryFacade } from './data-access/category/facades/category.facade';
 
 @Component({
   imports: [RouterModule, IonRouterOutlet],
@@ -13,6 +14,7 @@ import { TodoFacade } from './data-access/todo/facades/todo.facade';
 })
 export class App implements OnInit {
   private readonly todoFacade = inject(TodoFacade);
+  private readonly categoryFacade = inject(CategoryFacade);
 
   constructor() {
     addIcons({ addCircle });
@@ -20,5 +22,6 @@ export class App implements OnInit {
 
   ngOnInit() {
     this.todoFacade.fetchTodos();
+    this.categoryFacade.fetchCategories();
   }
 }

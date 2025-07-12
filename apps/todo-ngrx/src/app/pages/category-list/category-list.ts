@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonButton,
@@ -40,7 +40,7 @@ import { Router } from '@angular/router';
   templateUrl: './category-list.html',
   styleUrl: './category-list.scss',
 })
-export class CategoryListPage implements OnInit {
+export class CategoryListPage {
   // deps
   protected readonly categoryFacade = inject(CategoryFacade);
   private readonly refresherManager = new RefresherManager(
@@ -55,10 +55,6 @@ export class CategoryListPage implements OnInit {
       this.categoryFacade.$isLoading() && !this.refresherManager.$isRefreshing()
     );
   });
-
-  ngOnInit() {
-    this.categoryFacade.fetchCategories();
-  }
 
   onRefreshed(event: RefresherCustomEvent) {
     this.refresherManager.onRefreshed(event);
