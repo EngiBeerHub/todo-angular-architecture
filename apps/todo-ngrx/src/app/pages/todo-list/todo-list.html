@@ -2,6 +2,9 @@
 
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="リスト"></ion-back-button>
+    </ion-buttons>
     <!-- TODO: for passing e2e. Remove later. -->
     <ion-title>Welcome</ion-title>
     @if ($isDrafting() || $isUpdating()) {

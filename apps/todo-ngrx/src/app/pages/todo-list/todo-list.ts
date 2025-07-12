@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoListComponent } from '@todo-angular-architecture/components';
 import {
+  IonBackButton,
   IonButton,
   IonButtons,
   IonContent,
@@ -34,6 +35,7 @@ import { RefresherManager } from '../../utils/refresher-manager';
     IonIcon,
     IonRefresher,
     IonRefresherContent,
+    IonBackButton,
   ],
   templateUrl: './todo-list.html',
   styles: ``,
