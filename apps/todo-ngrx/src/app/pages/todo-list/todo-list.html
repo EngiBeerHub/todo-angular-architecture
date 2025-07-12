@@ -5,8 +5,9 @@
     <ion-buttons slot="start">
       <ion-back-button text="リスト"></ion-back-button>
     </ion-buttons>
-    <!-- TODO: for passing e2e. Remove later. -->
+
     <ion-title>{{ $todosViewModel().categoryName }}</ion-title>
+
     @if ($isDrafting() || $isUpdating()) {
       <ion-buttons slot="end">
         <ion-button (click)="onCompleteClicked()">完了</ion-button>

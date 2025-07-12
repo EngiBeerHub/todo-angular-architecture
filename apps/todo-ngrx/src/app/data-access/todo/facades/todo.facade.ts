@@ -45,6 +45,11 @@ export class TodoFacade implements ITodoFacade {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const maxId = Math.max(0, ...this.$_todosSignal().map((todo) => todo.id!));
     todo.id = maxId + 1;
+
+    // set categoryId from current category
+    const category = this.$_categorySignal();
+    if (category) todo.categoryId = category.id;
+
     this.store.dispatch(TodoActions.addTodo({ todo }));
   }
 
