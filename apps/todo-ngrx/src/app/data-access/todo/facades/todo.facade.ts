@@ -7,6 +7,7 @@ import {
 import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TodoActions, TodoSelectors } from '../state';
+import { CategorySelectors } from '../../category/state';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +22,13 @@ export class TodoFacade implements ITodoFacade {
     }
   );
 
+  private $_categorySignal = toSignal(
+    this.store.select(CategorySelectors.selectCategoryById)
+  );
+
   // Effective AngularではinclVatなどを組み合わせていたためcomputedが必要だった
-  $todos = computed<TodosViewModel>(() => ({
+  $todosViewModel = computed<TodosViewModel>(() => ({
+    categoryName: this.$_categorySignal()?.title ?? '',
     todos: this.$_todosSignal(),
   }));
 

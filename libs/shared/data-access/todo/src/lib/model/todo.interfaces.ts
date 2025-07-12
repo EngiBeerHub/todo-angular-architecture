@@ -19,6 +19,7 @@ export interface TodoModel {
 }
 
 export interface TodosViewModel {
+  categoryName: string;
   todos: TodoModel[];
 }
 

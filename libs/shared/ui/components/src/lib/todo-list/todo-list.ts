@@ -11,7 +11,7 @@ import {
   IonLabel,
   IonList,
 } from '@ionic/angular/standalone';
-import { TodoModel, TodosViewModel } from '@todo-angular-architecture/todo';
+import { TodoModel } from '@todo-angular-architecture/todo';
 import { CheckboxCustomEvent } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
@@ -37,7 +37,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class TodoListComponent {
   // input
-  $todos = input.required<TodosViewModel>();
+  $todos = input.required<TodoModel[]>();
 
   // output
   todoAdded = output<TodoModel>();

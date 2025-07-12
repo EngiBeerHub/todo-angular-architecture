@@ -6,7 +6,7 @@
       <ion-back-button text="リスト"></ion-back-button>
     </ion-buttons>
     <!-- TODO: for passing e2e. Remove later. -->
-    <ion-title>Welcome</ion-title>
+    <ion-title>{{ $todosViewModel().categoryName }}</ion-title>
     @if ($isDrafting() || $isUpdating()) {
       <ion-buttons slot="end">
         <ion-button (click)="onCompleteClicked()">完了</ion-button>
@@ -18,7 +18,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Welcome</ion-title>
+      <ion-title size="large">{{ $todosViewModel().categoryName }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -27,7 +27,7 @@
   </ion-refresher>
 
   <lib-todo-list
-    [$todos]="$todos()"
+    [$todos]="$todosViewModel().todos"
     (todoAdded)="onTodoAdded($event)"
     (checkedChange)="onCheckedChange($event)"
     (todoUpdated)="onTodoUpdated($event)"

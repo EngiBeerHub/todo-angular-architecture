@@ -48,7 +48,7 @@ export class TodoListPage {
   );
 
   // view state
-  protected $todos = this.todoFacade.$todos;
+  protected $todosViewModel = this.todoFacade.$todosViewModel;
   protected $isDrafting = signal(false);
   protected $isUpdating = signal(false);
   protected $showLoading = computed(() => {

@@ -1,6 +1,6 @@
 <!--<ion-list [inset]="true">-->
 <ion-list>
-  @for (todo of $todos().todos; track todo.id) {
+  @for (todo of $todos(); track todo.id) {
     <ion-item-sliding #sliding>
       <ion-item>
         <ion-checkbox

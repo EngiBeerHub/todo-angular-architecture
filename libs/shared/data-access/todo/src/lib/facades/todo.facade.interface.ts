@@ -2,7 +2,7 @@ import { TodoModel, TodosViewModel } from '../model/todo.interfaces';
 import { Signal } from '@angular/core';
 
 export interface ITodoFacade {
-  $todos: Signal<TodosViewModel>;
+  $todosViewModel: Signal<TodosViewModel>;
   $isLoading: Signal<boolean>;
   resetTodosState(): void;
   addTodo(todo: TodoModel): void;
