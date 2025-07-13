@@ -69,9 +69,7 @@ export class TodoListPage {
   }
 
   onTodoAdded(todo: TodoModel) {
-    if (todo.title) {
-      this.todoFacade.addTodo(todo);
-    }
+    this.todoFacade.addTodo(todo);
     this.$isDrafting.set(false);
   }
 
@@ -80,14 +78,10 @@ export class TodoListPage {
   }
 
   onTodoUpdated(todo: TodoModel) {
-    if (!todo.id) throw new Error('todo.id is null.');
-    if (todo.title) this.todoFacade.updateTodo(todo);
-    else this.todoFacade.deleteTodo(todo.id);
+    this.todoFacade.updateTodo(todo);
   }
 
   onTodoDeleted(todo: TodoModel) {
-    if (todo.id) {
-      this.todoFacade.deleteTodo(todo.id);
-    }
+    this.todoFacade.deleteTodo(todo.id);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonButton,
@@ -49,7 +49,8 @@ export class CategoryListPage {
   private readonly router = inject(Router);
 
   // view state
-  protected $categories = this.categoryFacade.$categories;
+  protected $categoriesViewModel = this.categoryFacade.$categories;
+  protected $isDrafting = signal(false);
   protected $showLoading = computed(() => {
     return (
       this.categoryFacade.$isLoading() && !this.refresherManager.$isRefreshing()
@@ -65,7 +66,16 @@ export class CategoryListPage {
     void this.router.navigate(['/category', categoryId, 'todos']);
   }
 
+  onCompleteClicked() {
+    this.$isDrafting.set(false);
+  }
+
+  onCategoryAdded(category: CategoryModel) {
+    this.categoryFacade.addCategory(category);
+    this.$isDrafting.set(false);
+  }
+
   onCategoryDeleted(category: CategoryModel) {
-    if (category.id) this.categoryFacade.deleteCategory(category.id);
+    this.categoryFacade.deleteCategory(category.id);
   }
 }

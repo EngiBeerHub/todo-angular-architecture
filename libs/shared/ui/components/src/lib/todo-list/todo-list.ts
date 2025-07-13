@@ -43,8 +43,8 @@ export class TodoListComponent {
   // output
   todoAdded = output<TodoModel>();
   checkedChange = output<TodoModel>();
-  todoDeleted = output<TodoModel>();
   todoUpdated = output<TodoModel>();
+  todoDeleted = output<TodoModel>();
 
   // input and output
   $isDrafting = model(false);

@@ -39,7 +39,7 @@ export const updateTodoFailed = createAction(`[Todo] Update Todo Failed`);
 
 export const deleteTodo = createAction(
   `[Todo] Delete Todo`,
-  props<{ id: number }>()
+  props<{ id: number | null }>()
 );
 export const deleteTodoSuccess = createAction(
   `[Todo] Delete Todo Success`,

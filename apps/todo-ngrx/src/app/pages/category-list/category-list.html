@@ -3,6 +3,12 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>My List</ion-title>
+
+    @if ($isDrafting()) {
+      <ion-buttons slot="end">
+        <ion-button (click)="onCompleteClicked()">Complete</ion-button>
+      </ion-buttons>
+    }
   </ion-toolbar>
 </ion-header>
 
@@ -18,16 +24,18 @@
   </ion-refresher>
 
   <lib-category-list
-    [$categories]="$categories()"
+    [$categories]="$categoriesViewModel()"
+    (categoryAdded)="onCategoryAdded($event)"
     (categorySelected)="onCategorySelected($event)"
     (categoryDeleted)="onCategoryDeleted($event)"
+    [($isDrafting)]="$isDrafting"
   ></lib-category-list>
 </ion-content>
 
 <ion-footer [translucent]="true" collapse="fade">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button>
+      <ion-button (click)="$isDrafting.set(true)">
         <ion-icon name="add-circle" style="margin-right: 8px"></ion-icon>
         新規
       </ion-button>

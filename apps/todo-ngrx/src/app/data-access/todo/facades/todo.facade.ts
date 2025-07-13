@@ -48,6 +48,8 @@ export class TodoFacade implements ITodoFacade {
   }
 
   addTodo(todo: TodoModel): void {
+    if (!todo.title) return;
+
     // APIがidを採番してくれないためサンプルアプリ固有でidをインクリメントする
     const maxId = Math.max(
       0,
@@ -72,10 +74,12 @@ export class TodoFacade implements ITodoFacade {
   }
 
   updateTodo(todo: TodoModel): void {
-    this.store.dispatch(TodoActions.updateTodo({ todo }));
+    if (!todo.id) throw new Error('todo.id is null.');
+    if (todo.title) this.store.dispatch(TodoActions.updateTodo({ todo }));
   }
 
-  deleteTodo(id: number): void {
+  deleteTodo(id: number | null): void {
+    if (!id) throw new Error('todo.id is null.');
     this.store.dispatch(TodoActions.deleteTodo({ id }));
   }
 }

@@ -16,4 +16,16 @@
       </ion-item-options>
     </ion-item-sliding>
   }
+
+  @if ($isDrafting()) {
+    <!-- add mode -->
+    <ion-item-sliding>
+      <ion-item>
+        <ion-input
+          autofocus="true"
+          [(ngModel)]="$newCategoryTitle"
+          (ionBlur)="onAddConfirmed()"></ion-input>
+      </ion-item>
+    </ion-item-sliding>
+  }
 </ion-list>

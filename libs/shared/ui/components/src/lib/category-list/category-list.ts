@@ -1,7 +1,8 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonIcon,
+  IonInput,
   IonItem,
   IonItemOption,
   IonItemOptions,
@@ -16,6 +17,7 @@ import {
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
 import { sleep } from '../utils/sleep';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'lib-category-list',
@@ -28,27 +30,53 @@ import { sleep } from '../utils/sleep';
     IonItemOptions,
     IonIcon,
     IonItemOption,
+    IonInput,
+    FormsModule,
   ],
   templateUrl: './category-list.html',
   styleUrl: './category-list.scss',
 })
 export class CategoryListComponent {
+  // input
+  $categories = input.required<CategoryViewModel>();
+
+  // output
   categorySelected = output<number>();
+  categoryAdded = output<CategoryModel>();
+  categoryUpdated = output<CategoryModel>();
   categoryDeleted = output<CategoryModel>();
+
+  // input and output
+  $isDrafting = model(false);
+
+  // add draft value
+  $newCategoryTitle = model('');
 
   constructor() {
     addIcons({ trash });
   }
-  // input
-  $categories = input.required<CategoryViewModel>();
 
   onCategorySelected(categoryId: number | null) {
     if (categoryId) this.categorySelected.emit(categoryId);
+  }
+
+  onAddConfirmed() {
+    this.categoryAdded.emit({
+      id: null,
+      title: this.$newCategoryTitle(),
+      description: null,
+    });
+    this.resetLocalState();
   }
 
   async onCategoryDeleted(category: CategoryModel, sliding: IonItemSliding) {
     await sliding.close();
     await sleep(400);
     this.categoryDeleted.emit(category);
+  }
+
+  private resetLocalState() {
+    this.$isDrafting.set(false);
+    this.$newCategoryTitle.set('');
   }
 }

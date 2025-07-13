@@ -30,7 +30,10 @@ export class CategoryFacade implements ICategoryFacade {
   resetCategoriesState(): void {
     this.store.dispatch(CategoryActions.resetCategoriesState());
   }
+
   addCategory(category: CategoryModel): void {
+    if (!category.title) return;
+
     const maxId = Math.max(
       0,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -39,16 +42,23 @@ export class CategoryFacade implements ICategoryFacade {
     category.id = maxId + 1;
     this.store.dispatch(CategoryActions.addCategory({ category }));
   }
+
   fetchCategories(): void {
     this.store.dispatch(CategoryActions.fetchCategories());
   }
+
   getCategory(id: number): void {
     this.store.dispatch(CategoryActions.getCategory({ id }));
   }
+
   updateCategory(category: CategoryModel): void {
-    this.store.dispatch(CategoryActions.updateCategory({ category }));
+    if (!category.id) throw new Error('category.id is null.');
+    if (category.title)
+      this.store.dispatch(CategoryActions.updateCategory({ category }));
   }
-  deleteCategory(id: number): void {
+
+  deleteCategory(id: number | null): void {
+    if (!id) throw new Error('category.id is null.');
     this.store.dispatch(CategoryActions.deleteCategory({ id }));
   }
 }

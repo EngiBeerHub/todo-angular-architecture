@@ -57,7 +57,7 @@ export const todoReducer = createReducer<TodosState>(
     error: 'Failed to update todo!',
   })),
   on(TodoActions.deleteTodo, (state, { id }) =>
-    todoEntityAdapter.removeOne(id, state)
+    id ? todoEntityAdapter.removeOne(id, state) : state
   ),
   on(TodoActions.deleteTodoSuccess, (state) => ({
     ...state,
