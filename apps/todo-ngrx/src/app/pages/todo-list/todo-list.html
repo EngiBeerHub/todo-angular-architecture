@@ -13,7 +13,7 @@
 
     <!-- Menu -->
     <ion-buttons slot="end">
-      <ion-button id="menu">
+      <ion-button id="menu" (click)="$isOpenPopover.set(true)">
         <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
       </ion-button>
 
@@ -22,13 +22,15 @@
       }
     </ion-buttons>
 
-    <ion-popover trigger="menu" [arrow]="false">
+    <ion-popover trigger="menu" [isOpen]="$isOpenPopover()" [arrow]="false" (didDismiss)="$isOpenPopover.set(false)">
       <ng-template>
         <!-- Menu content -->
         <lib-todo-list-menu-content
           [$showDoneTodos]="$todosViewModel().showDoneTodos"
           (hideDoneTodosClicked)="onHideDoneTodosClicked()"
-          (showDoneTodosClicked)="onShowDoneTodosClicked()">
+          (showDoneTodosClicked)="onShowDoneTodosClicked()"
+          (deleteCategoryClicked)="onDeleteCategoryClicked()"
+          (closePopover)="$isOpenPopover.set(false)">
         </lib-todo-list-menu-content>
       </ng-template>
     </ion-popover>

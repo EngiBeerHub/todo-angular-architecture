@@ -5,6 +5,7 @@ import {
   TodolistMenuContent,
 } from '@todo-angular-architecture/components';
 import {
+  AlertController,
   IonBackButton,
   IonButton,
   IonButtons,
@@ -52,6 +53,7 @@ export class TodoListPage {
   private readonly refresherManager = new RefresherManager(
     this.todoFacade.$isLoading
   );
+  private readonly alertCtrl = inject(AlertController);
 
   // view state
   protected $todosViewModel = this.todoFacade.$todosViewModel;
@@ -63,6 +65,7 @@ export class TodoListPage {
       this.todoFacade.$isLoading() && !this.refresherManager.$isRefreshing()
     );
   });
+  protected readonly $isOpenPopover = signal(false);
 
   onRefreshed(event: RefresherCustomEvent) {
     this.refresherManager.onRefreshed(event);
@@ -97,5 +100,24 @@ export class TodoListPage {
 
   onShowDoneTodosClicked() {
     this.todoFacade.showDoneTodos();
+  }
+
+  async onDeleteCategoryClicked() {
+    const alert = await this.alertCtrl.create({
+      header: `"${
+        this.$todosViewModel().categoryName
+      }"のリストを削除しますか？`,
+      message:
+        'この操作によりこのリストにあるリマインダーがすべて削除されます。',
+      buttons: [
+        { text: 'キャンセル', role: 'cancel' },
+        {
+          text: '削除',
+          role: 'destructive',
+          handler: () => this.todoFacade.deleteCategoryFromTodoList(),
+        },
+      ],
+    });
+    await alert.present();
   }
 }

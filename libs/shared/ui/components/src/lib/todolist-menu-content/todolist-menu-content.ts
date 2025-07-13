@@ -36,7 +36,12 @@ import { addIcons } from 'ionicons';
         </ion-item>
         }
 
-        <ion-item button="true" detail="false" lines="none">
+        <ion-item
+          button="true"
+          detail="false"
+          lines="none"
+          (click)="deleteCategoryClicked.emit(); closePopover.emit()"
+        >
           <ion-label color="danger">リストを削除</ion-label>
           <ion-icon name="trash-outline" slot="end" color="danger"></ion-icon>
         </ion-item>
@@ -46,9 +51,14 @@ import { addIcons } from 'ionicons';
   styles: ``,
 })
 export class TodolistMenuContent {
+  // inputs
   $showDoneTodos = input.required<boolean>();
+
+  // outputs
+  closePopover = output();
   hideDoneTodosClicked = output();
   showDoneTodosClicked = output();
+  deleteCategoryClicked = output();
 
   constructor() {
     addIcons({
