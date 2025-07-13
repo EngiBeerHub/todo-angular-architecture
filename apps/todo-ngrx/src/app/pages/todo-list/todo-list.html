@@ -1,21 +1,41 @@
 <ion-loading [isOpen]="$showLoading()"></ion-loading>
 
+<!-- Header -->
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- Back button -->
     <ion-buttons slot="start">
-      <ion-back-button text="List"></ion-back-button>
+      <ion-back-button text="リスト"></ion-back-button>
     </ion-buttons>
 
+    <!-- Title -->
     <ion-title>{{ $todosViewModel().categoryName }}</ion-title>
 
-    @if ($isDrafting() || $isUpdating()) {
-      <ion-buttons slot="end">
-        <ion-button (click)="onCompleteClicked()">Complete</ion-button>
-      </ion-buttons>
-    }
+    <!-- Menu -->
+    <ion-buttons slot="end">
+      <ion-button id="menu">
+        <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
+      </ion-button>
+
+      @if ($isDrafting() || $isUpdating()) {
+        <ion-button (click)="onCompleteClicked()">完了</ion-button>
+      }
+    </ion-buttons>
+
+    <ion-popover trigger="menu" [arrow]="false">
+      <ng-template>
+        <!-- Menu content -->
+        <lib-todo-list-menu-content
+          [$showDoneTodos]="$todosViewModel().showDoneTodos"
+          (hideDoneTodosClicked)="onHideDoneTodosClicked()"
+          (showDoneTodosClicked)="onShowDoneTodosClicked()">
+        </lib-todo-list-menu-content>
+      </ng-template>
+    </ion-popover>
   </ion-toolbar>
 </ion-header>
 
+<!-- Content -->
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -27,6 +47,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <!-- TodoList -->
   <lib-todo-list
     [$todos]="$todosViewModel().todos"
     (todoAdded)="onTodoAdded($event)"
@@ -38,6 +59,7 @@
   ></lib-todo-list>
 </ion-content>
 
+<!-- Footer -->
 <ion-footer [translucent]="true" collapse="fade">
   <ion-toolbar>
     <ion-buttons slot="start">

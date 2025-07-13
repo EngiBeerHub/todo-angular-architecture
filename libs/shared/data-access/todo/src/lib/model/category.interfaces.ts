@@ -4,12 +4,14 @@ export interface CategoryDto {
   id: number | null;
   title: string;
   description: string | null;
+  showDoneTodos: boolean;
 }
 
 export interface CategoryModel {
   id: number | null;
   title: string;
   description: string | null;
+  showDoneTodos: boolean;
 }
 
 export interface CategoryViewModel {

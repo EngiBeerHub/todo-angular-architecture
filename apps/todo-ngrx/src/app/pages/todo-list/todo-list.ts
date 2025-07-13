@@ -1,6 +1,9 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TodoListComponent } from '@todo-angular-architecture/components';
+import {
+  TodoListComponent,
+  TodolistMenuContent,
+} from '@todo-angular-architecture/components';
 import {
   IonBackButton,
   IonButton,
@@ -10,6 +13,7 @@ import {
   IonHeader,
   IonIcon,
   IonLoading,
+  IonPopover,
   IonRefresher,
   IonRefresherContent,
   IonTitle,
@@ -36,6 +40,8 @@ import { RefresherManager } from '../../utils/refresher-manager';
     IonRefresher,
     IonRefresherContent,
     IonBackButton,
+    IonPopover,
+    TodolistMenuContent,
   ],
   templateUrl: './todo-list.html',
   styles: ``,
@@ -83,5 +89,13 @@ export class TodoListPage {
 
   onTodoDeleted(todo: TodoModel) {
     this.todoFacade.deleteTodo(todo.id);
+  }
+
+  onHideDoneTodosClicked() {
+    this.todoFacade.hideDoneTodos();
+  }
+
+  onShowDoneTodosClicked() {
+    this.todoFacade.showDoneTodos();
   }
 }

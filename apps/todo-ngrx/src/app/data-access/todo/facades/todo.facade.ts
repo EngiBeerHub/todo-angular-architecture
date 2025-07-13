@@ -8,12 +8,18 @@ import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TodoActions, TodoSelectors } from '../state';
 import { CategorySelectors } from '../../category/state';
+import { CategoryFacade } from '../../category/facades/category.facade';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoFacade implements ITodoFacade {
   protected readonly store = inject(Store);
+  protected readonly categoryFacade = inject(CategoryFacade);
+
+  private $_categorySignal = toSignal(
+    this.store.select(CategorySelectors.selectCategoryById)
+  );
 
   private $_allTodosSignal = toSignal(
     this.store.select(TodoSelectors.selectAllTodos),
@@ -22,21 +28,18 @@ export class TodoFacade implements ITodoFacade {
     }
   );
 
-  private $_todosByCategorySignal = toSignal(
-    this.store.select(TodoSelectors.selectTodosByCategory),
+  private $_todosByCategoryWithVisibilitySignal = toSignal(
+    this.store.select(TodoSelectors.selectTodosByCategoryWithVisibility),
     {
       initialValue: [],
     }
   );
 
-  private $_categorySignal = toSignal(
-    this.store.select(CategorySelectors.selectCategoryById)
-  );
-
   // ViewModel by current state
   $todosViewModel = computed<TodosViewModel>(() => ({
     categoryName: this.$_categorySignal()?.title ?? '',
-    todos: this.$_todosByCategorySignal(),
+    showDoneTodos: this.$_categorySignal()?.showDoneTodos ?? false,
+    todos: this.$_todosByCategoryWithVisibilitySignal(),
   }));
 
   $isLoading = toSignal(this.store.select(TodoSelectors.selectIsLoading), {
@@ -81,5 +84,21 @@ export class TodoFacade implements ITodoFacade {
   deleteTodo(id: number | null): void {
     if (!id) throw new Error('todo.id is null.');
     this.store.dispatch(TodoActions.deleteTodo({ id }));
+  }
+
+  showDoneTodos() {
+    this.categoryFacade.updateCategory({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ...this.$_categorySignal()!,
+      showDoneTodos: true,
+    });
+  }
+
+  hideDoneTodos() {
+    this.categoryFacade.updateCategory({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ...this.$_categorySignal()!,
+      showDoneTodos: false,
+    });
   }
 }

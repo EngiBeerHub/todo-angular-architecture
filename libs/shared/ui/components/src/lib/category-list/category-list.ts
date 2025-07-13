@@ -65,6 +65,7 @@ export class CategoryListComponent {
       id: null,
       title: this.$newCategoryTitle(),
       description: null,
+      showDoneTodos: false,
     });
     this.resetLocalState();
   }

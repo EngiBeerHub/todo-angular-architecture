@@ -2,7 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonRouterOutlet } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addCircle } from 'ionicons/icons';
+import {
+  addCircle,
+  ellipsisHorizontalCircleOutline,
+  trashOutline,
+} from 'ionicons/icons';
 import { TodoFacade } from './data-access/todo/facades/todo.facade';
 import { CategoryFacade } from './data-access/category/facades/category.facade';
 
@@ -17,7 +21,11 @@ export class App implements OnInit {
   private readonly categoryFacade = inject(CategoryFacade);
 
   constructor() {
-    addIcons({ addCircle });
+    addIcons({
+      addCircle,
+      ellipsisHorizontalCircleOutline,
+      trashOutline,
+    });
   }
 
   ngOnInit() {

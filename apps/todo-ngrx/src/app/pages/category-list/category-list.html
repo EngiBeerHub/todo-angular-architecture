@@ -2,11 +2,11 @@
 
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>My List</ion-title>
+    <ion-title>マイリスト</ion-title>
 
     @if ($isDrafting()) {
       <ion-buttons slot="end">
-        <ion-button (click)="onCompleteClicked()">Complete</ion-button>
+        <ion-button (click)="onCompleteClicked()">完了</ion-button>
       </ion-buttons>
     }
   </ion-toolbar>
@@ -15,7 +15,7 @@
 <ion-content color="light" [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar color="light">
-      <ion-title size="large">My List</ion-title>
+      <ion-title size="large">マイリスト</ion-title>
     </ion-toolbar>
   </ion-header>
 

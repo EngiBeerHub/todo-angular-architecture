@@ -9,6 +9,7 @@ export class CategoryAdapter
       id: dto.id,
       title: dto.title,
       description: dto.description,
+      showDoneTodos: dto.showDoneTodos,
     };
   }
 
@@ -17,6 +18,7 @@ export class CategoryAdapter
       id: model.id,
       title: model.title,
       description: model.description,
+      showDoneTodos: model.showDoneTodos,
     };
   }
 }

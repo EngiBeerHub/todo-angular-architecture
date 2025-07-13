@@ -20,6 +20,7 @@ export interface TodoModel {
 
 export interface TodosViewModel {
   categoryName: string;
+  showDoneTodos: boolean;
   todos: TodoModel[];
 }
 
