@@ -1,4 +1,5 @@
-<ion-loading [isOpen]="$showLoading()"></ion-loading>
+<!-- Loading -->
+<ion-loading [isOpen]="store.$showLoading()"></ion-loading>
 
 <!-- Header -->
 <ion-header [translucent]="true">
@@ -9,28 +10,29 @@
     </ion-buttons>
 
     <!-- Title -->
-    <ion-title>{{ $todosViewModel().categoryName }}</ion-title>
+    <ion-title>{{ store.todosViewModel.category()?.title }}</ion-title>
 
     <!-- Menu -->
     <ion-buttons slot="end">
-      <ion-button id="menu" (click)="$isOpenPopover.set(true)">
+      <ion-button id="menu" (click)="store.onIsOpenMenuToggled(true)">
         <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
       </ion-button>
 
-      @if ($isDrafting() || $isUpdating()) {
-        <ion-button (click)="onCompleteClicked()">完了</ion-button>
+      @if (store.isDrafting() || store.isUpdating()) {
+        <ion-button (click)="store.onCompleteClicked()">完了</ion-button>
       }
     </ion-buttons>
 
-    <ion-popover trigger="menu" [isOpen]="$isOpenPopover()" [arrow]="false" (didDismiss)="$isOpenPopover.set(false)">
+    <ion-popover trigger="menu" [isOpen]="store.isOpenMenu()" [arrow]="false"
+                 (didDismiss)="store.onIsOpenMenuToggled(false)">
       <ng-template>
         <!-- Menu content -->
         <lib-todo-list-menu-content
-          [$showDoneTodos]="$todosViewModel().showDoneTodos"
-          (hideDoneTodosClicked)="onHideDoneTodosClicked()"
-          (showDoneTodosClicked)="onShowDoneTodosClicked()"
-          (deleteCategoryClicked)="onDeleteCategoryClicked()"
-          (closePopover)="$isOpenPopover.set(false)">
+          [$showDoneTodos]="store.todosViewModel.showDoneTodos()"
+          (hideDoneTodosClicked)="store.onShowDoneTodosToggled(false)"
+          (showDoneTodosClicked)="store.onShowDoneTodosToggled(true)"
+          (deleteCategoryClicked)="store.onDeleteCategoryClicked()"
+        >
         </lib-todo-list-menu-content>
       </ng-template>
     </ion-popover>
@@ -41,23 +43,25 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">{{ $todosViewModel().categoryName }}</ion-title>
+      <ion-title size="large">{{ store.todosViewModel.category()?.title }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-refresher slot="fixed" (ionRefresh)="onRefreshed($event)">
+  <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="store.onRefreshed($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <!-- TodoList -->
   <lib-todo-list
-    [$todos]="$todosViewModel().todos"
-    (todoAdded)="onTodoAdded($event)"
-    (checkedChange)="onCheckedChange($event)"
-    (todoUpdated)="onTodoUpdated($event)"
-    (todoDeleted)="onTodoDeleted($event)"
-    [($isDrafting)]="$isDrafting"
-    [($isUpdating)]="$isUpdating"
+    [$todos]="store.todosViewModel.todos()"
+    [$isDrafting]="store.isDrafting()"
+    [$isUpdating]="store.isUpdating()"
+    (isDraftingToggled)="store.onIsDraftingToggled($event)"
+    (isUpdatingToggled)="store.onIsUpdatingToggled($event)"
+    (todoAdded)="store.onTodoAdded($event)"
+    (todoUpdated)="store.onTodoUpdated($event)"
+    (todoDeleted)="store.onTodoDeleted($event)"
   ></lib-todo-list>
 </ion-content>
 
@@ -65,7 +69,7 @@
 <ion-footer [translucent]="true" collapse="fade">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="$isDrafting.set(true)">
+      <ion-button (click)="store.onIsDraftingToggled(true)">
         <ion-icon name="add-circle" style="margin-right: 8px"></ion-icon>
         新規
       </ion-button>

@@ -8,16 +8,13 @@ import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TodoActions, TodoSelectors } from '../state';
 import { CategorySelectors } from '../../category/state';
-import { CategoryFacade } from '../../category/facades/category.facade';
-import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoFacade implements ITodoFacade {
+  // dependencies
   private readonly store = inject(Store);
-  private readonly categoryFacade = inject(CategoryFacade);
-  private readonly location = inject(Location);
 
   private $_categorySignal = toSignal(
     this.store.select(CategorySelectors.selectCategoryById)
@@ -39,7 +36,7 @@ export class TodoFacade implements ITodoFacade {
 
   // ViewModel by current state
   $todosViewModel = computed<TodosViewModel>(() => ({
-    categoryName: this.$_categorySignal()?.title ?? '',
+    category: this.$_categorySignal() ?? null,
     showDoneTodos: this.$_categorySignal()?.showDoneTodos ?? false,
     todos: this.$_todosByCategoryWithVisibilitySignal(),
   }));
@@ -86,27 +83,5 @@ export class TodoFacade implements ITodoFacade {
   deleteTodo(id: number | null): void {
     if (!id) throw new Error('todo.id is null.');
     this.store.dispatch(TodoActions.deleteTodo({ id }));
-  }
-
-  showDoneTodos() {
-    this.categoryFacade.updateCategory({
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ...this.$_categorySignal()!,
-      showDoneTodos: true,
-    });
-  }
-
-  hideDoneTodos() {
-    this.categoryFacade.updateCategory({
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ...this.$_categorySignal()!,
-      showDoneTodos: false,
-    });
-  }
-
-  deleteCategoryFromTodoList() {
-    this.location.back();
-    const category = this.$_categorySignal();
-    if (category) this.categoryFacade.deleteCategory(category.id);
   }
 }

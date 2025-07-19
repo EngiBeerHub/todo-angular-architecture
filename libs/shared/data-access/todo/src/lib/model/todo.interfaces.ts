@@ -1,4 +1,5 @@
 import { EntityState } from '@ngrx/entity';
+import { CategoryModel } from './category.interfaces';
 
 export interface TodoDto {
   id: number | null;
@@ -19,7 +20,7 @@ export interface TodoModel {
 }
 
 export interface TodosViewModel {
-  categoryName: string;
+  category: CategoryModel | null;
   showDoneTodos: boolean;
   todos: TodoModel[];
 }

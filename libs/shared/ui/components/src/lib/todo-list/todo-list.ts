@@ -12,11 +12,11 @@ import {
   IonList,
 } from '@ionic/angular/standalone';
 import { TodoModel } from '@todo-angular-architecture/todo';
-import { CheckboxCustomEvent } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import { sleep } from '../utils/sleep';
+import { CheckboxCustomEvent } from '@ionic/angular';
 
 @Component({
   selector: 'lib-todo-list',
@@ -39,16 +39,15 @@ import { sleep } from '../utils/sleep';
 export class TodoListComponent {
   // input
   $todos = input.required<TodoModel[]>();
+  $isDrafting = input.required<boolean>();
+  $isUpdating = input.required<boolean>();
 
   // output
   todoAdded = output<TodoModel>();
-  checkedChange = output<TodoModel>();
   todoUpdated = output<TodoModel>();
   todoDeleted = output<TodoModel>();
-
-  // input and output
-  $isDrafting = model(false);
-  $isUpdating = model(false);
+  isDraftingToggled = output<boolean>();
+  isUpdatingToggled = output<boolean>();
 
   // add draft value
   $newTodoTitle = model('');
@@ -76,11 +75,12 @@ export class TodoListComponent {
   }
 
   onCheckedChange(todo: TodoModel, event: CheckboxCustomEvent) {
-    this.checkedChange.emit({ ...todo, isDone: event.detail.checked });
+    this.todoUpdated.emit({ ...todo, isDone: event.detail.checked });
   }
 
   onStartEditing(todo: TodoModel) {
-    this.$isUpdating.set(true);
+    // this.$isUpdating.set(true);
+    this.isUpdatingToggled.emit(true);
     this.$editingTodoId.set(todo.id);
     this.$editingTitle.set(todo.title);
     this.$editingTodo.set(todo);
@@ -90,7 +90,9 @@ export class TodoListComponent {
     if (todo.title !== this.$editingTitle()) {
       this.todoUpdated.emit({ ...todo, title: this.$editingTitle() });
     }
-    this.$isUpdating.set(false);
+    // this.$isUpdating.set(false);
+    // this.updatingToggled.emit(false);
+    this.resetLocalState();
   }
 
   async onTodoDeleted(todo: TodoModel, sliding: IonItemSliding) {
@@ -100,7 +102,9 @@ export class TodoListComponent {
   }
 
   private resetLocalState() {
-    this.$isDrafting.set(false);
+    // this.$isDrafting.set(false);
+    this.isDraftingToggled.emit(false);
+    this.isUpdatingToggled.emit(false);
     this.$newTodoTitle.set('');
     this.$newTodoIsDone.set(false);
     this.$editingTodoId.set(null);

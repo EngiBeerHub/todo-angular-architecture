@@ -40,7 +40,7 @@ import { addIcons } from 'ionicons';
           button="true"
           detail="false"
           lines="none"
-          (click)="deleteCategoryClicked.emit(); closePopover.emit()"
+          (click)="deleteCategoryClicked.emit()"
         >
           <ion-label color="danger">リストを削除</ion-label>
           <ion-icon name="trash-outline" slot="end" color="danger"></ion-icon>
