@@ -1,5 +1,5 @@
 <ion-list [inset]="true">
-  @for (category of $categories().categories; track category.id) {
+  @for (category of $categories(); track category.id) {
     <ion-item-sliding #sliding>
       <ion-item [button]="true" (click)="onCategorySelected(category.id)">
         <ion-label>{{ category.title }}</ion-label>

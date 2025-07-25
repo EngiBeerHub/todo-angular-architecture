@@ -20,7 +20,6 @@ type TodoListPageState = {
   todosViewModel: TodosViewModel;
   isDrafting: boolean;
   isUpdating: boolean;
-  showLoading: boolean;
   isOpenMenu: boolean;
 };
 
@@ -32,7 +31,6 @@ const initialState: TodoListPageState = {
   },
   isDrafting: false,
   isUpdating: false,
-  showLoading: false,
   isOpenMenu: false,
 };
 
@@ -52,19 +50,18 @@ export const TodoListStore = signalStore(
 
   // computed state
   withComputed(({ todoFacade }) => ({
-    $showLoading: computed(() => {
-      return todoFacade.$isLoading() && _refresherEvent() === null;
-    }),
+    $showLoading: computed(
+      () => todoFacade.$isLoading() && _refresherEvent() === null
+    ),
   })),
 
   // lifecycle method of store
   withHooks(({ todoFacade, ...store }) => ({
     onInit() {
       // extract a view model from facade
-      effect(() => {
-        const vm = todoFacade.$todosViewModel();
-        patchState(store, { todosViewModel: vm });
-      });
+      effect(() =>
+        patchState(store, { todosViewModel: todoFacade.$todosViewModel() })
+      );
 
       // complete refresh when complete fetch todos
       effect(() => {

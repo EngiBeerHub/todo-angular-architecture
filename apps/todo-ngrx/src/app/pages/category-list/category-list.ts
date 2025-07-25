@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonButton,
@@ -13,12 +13,8 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
-import { CategoryFacade } from '../../data-access/category/facades/category.facade';
 import { CategoryListComponent } from '@todo-angular-architecture/components';
-import { RefresherManager } from '../../utils/refresher-manager';
-import { RefresherCustomEvent } from '@ionic/angular';
-import { CategoryModel } from '@todo-angular-architecture/todo';
-import { Router } from '@angular/router';
+import { CategoryListStore } from './category-list-store';
 
 @Component({
   selector: 'app-category-list',
@@ -37,45 +33,64 @@ import { Router } from '@angular/router';
     IonRefresherContent,
     CategoryListComponent,
   ],
-  templateUrl: './category-list.html',
+  providers: [CategoryListStore],
+  template: `
+    <!-- Loading -->
+    <ion-loading [isOpen]="store.$showLoading()"></ion-loading>
+
+    <!-- Header -->
+    <ion-header [translucent]="true">
+      <ion-toolbar>
+        <!-- Title -->
+        <ion-title>マイリスト</ion-title>
+
+        @if (store.isDrafting()) {
+        <ion-buttons slot="end">
+          <ion-button (click)="store.onCompleteClicked()">完了</ion-button>
+        </ion-buttons>
+        }
+      </ion-toolbar>
+    </ion-header>
+
+    <!-- Content -->
+    <ion-content color="light" [fullscreen]="true">
+      <ion-header collapse="condense">
+        <ion-toolbar color="light">
+          <ion-title size="large">マイリスト</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <!-- Refresher -->
+      <ion-refresher slot="fixed" (ionRefresh)="store.onRefreshed($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
+      <!-- CategoryList -->
+      <lib-category-list
+        [$categories]="store.categoriesViewModel.categories()"
+        [$isDrafting]="store.isDrafting()"
+        (categoryAdded)="store.onCategoryAdded($event)"
+        (categorySelected)="store.onCategorySelected($event)"
+        (categoryDeleted)="store.onCategoryDeleted($event)"
+        (isDraftingToggled)="store.onIsDraftingToggled($event)"
+      ></lib-category-list>
+    </ion-content>
+
+    <!-- Footer -->
+    <ion-footer [translucent]="true" collapse="fade">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="store.onIsDraftingToggled(true)">
+            <ion-icon name="add-circle" style="margin-right: 8px"></ion-icon>
+            新規
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  `,
   styles: ``,
 })
 export class CategoryListPage {
-  // deps
-  protected readonly categoryFacade = inject(CategoryFacade);
-  private readonly refresherManager = new RefresherManager(
-    this.categoryFacade.$isLoading
-  );
-  private readonly router = inject(Router);
-
-  // view state
-  protected $categoriesViewModel = this.categoryFacade.$categories;
-  protected $isDrafting = signal(false);
-  protected $showLoading = computed(() => {
-    return (
-      this.categoryFacade.$isLoading() && !this.refresherManager.$isRefreshing()
-    );
-  });
-
-  onRefreshed(event: RefresherCustomEvent) {
-    this.refresherManager.onRefreshed(event);
-    this.categoryFacade.fetchCategories();
-  }
-
-  onCategorySelected(categoryId: number) {
-    void this.router.navigate(['/category', categoryId, 'todos']);
-  }
-
-  onCompleteClicked() {
-    this.$isDrafting.set(false);
-  }
-
-  onCategoryAdded(category: CategoryModel) {
-    this.categoryFacade.addCategory(category);
-    this.$isDrafting.set(false);
-  }
-
-  onCategoryDeleted(category: CategoryModel) {
-    this.categoryFacade.deleteCategory(category.id);
-  }
+  // dependencies
+  readonly store = inject(CategoryListStore);
 }

@@ -79,7 +79,6 @@ export class TodoListComponent {
   }
 
   onStartEditing(todo: TodoModel) {
-    // this.$isUpdating.set(true);
     this.isUpdatingToggled.emit(true);
     this.$editingTodoId.set(todo.id);
     this.$editingTitle.set(todo.title);
@@ -90,8 +89,6 @@ export class TodoListComponent {
     if (todo.title !== this.$editingTitle()) {
       this.todoUpdated.emit({ ...todo, title: this.$editingTitle() });
     }
-    // this.$isUpdating.set(false);
-    // this.updatingToggled.emit(false);
     this.resetLocalState();
   }
 
@@ -102,7 +99,6 @@ export class TodoListComponent {
   }
 
   private resetLocalState() {
-    // this.$isDrafting.set(false);
     this.isDraftingToggled.emit(false);
     this.isUpdatingToggled.emit(false);
     this.$newTodoTitle.set('');

@@ -2,7 +2,7 @@ import { Signal } from '@angular/core';
 import { CategoryModel, CategoryViewModel } from '../model/category.interfaces';
 
 export interface ICategoryFacade {
-  $categories: Signal<CategoryViewModel>;
+  $categoriesViewModel: Signal<CategoryViewModel>;
   $isLoading: Signal<boolean>;
   resetCategoriesState(): void;
   addCategory(category: CategoryModel): void;

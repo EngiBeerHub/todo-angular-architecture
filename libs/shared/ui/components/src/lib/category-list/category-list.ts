@@ -10,10 +10,7 @@ import {
   IonLabel,
   IonList,
 } from '@ionic/angular/standalone';
-import {
-  CategoryModel,
-  CategoryViewModel,
-} from '@todo-angular-architecture/todo';
+import { CategoryModel } from '@todo-angular-architecture/todo';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
 import { sleep } from '../utils/sleep';
@@ -38,16 +35,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class CategoryListComponent {
   // input
-  $categories = input.required<CategoryViewModel>();
+  $categories = input.required<CategoryModel[]>();
+  $isDrafting = input.required<boolean>();
 
   // output
+  isDraftingToggled = output<boolean>();
   categorySelected = output<number>();
   categoryAdded = output<CategoryModel>();
   categoryUpdated = output<CategoryModel>();
   categoryDeleted = output<CategoryModel>();
-
-  // input and output
-  $isDrafting = model(false);
 
   // add draft value
   $newCategoryTitle = model('');
@@ -77,7 +73,8 @@ export class CategoryListComponent {
   }
 
   private resetLocalState() {
-    this.$isDrafting.set(false);
+    // this.$isDrafting.set(false);
+    this.isDraftingToggled.emit(false);
     this.$newCategoryTitle.set('');
   }
 }

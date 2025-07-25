@@ -4,7 +4,7 @@ export const appRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/todo-list',
+    redirectTo: '/category-list',
   },
   {
     path: 'category-list',

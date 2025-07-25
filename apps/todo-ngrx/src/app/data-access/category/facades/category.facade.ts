@@ -19,7 +19,7 @@ export class CategoryFacade implements ICategoryFacade {
     { initialValue: [] }
   );
 
-  $categories = computed<CategoryViewModel>(() => ({
+  $categoriesViewModel = computed<CategoryViewModel>(() => ({
     categories: this.$_categoriesSignal(),
   }));
 
